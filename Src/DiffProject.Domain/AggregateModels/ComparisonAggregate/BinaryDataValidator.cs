@@ -22,7 +22,7 @@ namespace iffProject.Domain.AggregateModels.ComparisonAggregate
         /// <param name="base64BinaryData"></param>
         /// <returns>True if Base64 is valid it. Else it wil return False</returns>
         /// Usualy we do not use exceptions for validations, but in this case 
-        /// validating if the string is base64 encoded is expensiver than handling the
+        /// validating if the string is base64 encoded is more expensive than handling the
         /// exception.
         private bool CheckBase64(string base64BinaryData)
         {
