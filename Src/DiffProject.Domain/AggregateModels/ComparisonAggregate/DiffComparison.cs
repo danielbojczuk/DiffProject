@@ -29,6 +29,7 @@ namespace DiffProject.Domain.AggregateModels.ComparisonAggregate
 
         public DiffComparison(Guid id, IDiffComparisonRepository diffComparisonRepository) :base(id)
         {
+            BinaryData = new List<BinaryData>();
             _diffComparisonRepository = diffComparisonRepository;
             Validate(this, new DiffComparisonDuplicityValidator(diffComparisonRepository));
         }

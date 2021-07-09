@@ -17,5 +17,7 @@ namespace DiffProject.Domain.AggregateModels.ComparisonAggregate.RepositoryInter
         /// <param name="id">Id of DiffComparison entity</param>
         /// <returns></returns>
         DiffComparison RetrieveDiffComparisonById(Guid id);
+
+        void Add(DiffComparison diffComparison);
     }
 }

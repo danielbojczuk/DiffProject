@@ -26,12 +26,21 @@ namespace DiffProject.Application.CommandHandlers
         ///Execute Async the 'Set Data' Command
         ///</summary>
         ///<param name="command">Command to be handled with the Comparison Id and the Bas64 Binary Data</param>
-        public async Task<Guid> ExecuteAsync(SetDataCommand command)
+        public async Task<Guid?> ExecuteAsync(SetDataCommand command)
         {
             DiffComparison diffComparision = new DiffComparison(command.ComparisonID, _diffComparisonRepository);
-            diffComparision.AddBinaryData(new BinaryData(ConvertCommandEnumToEntityEnum(command.ComparisonSide), command.Base64BinaryData));
+            if (!diffComparision.ValidationResult.IsValid)
+                return null;
 
-            return Guid.NewGuid();
+            BinaryData binaryData = new BinaryData(ConvertCommandEnumToEntityEnum(command.ComparisonSide), command.Base64BinaryData);
+            if (!diffComparision.ValidationResult.IsValid)
+                return null;
+
+            diffComparision.AddBinaryData(binaryData);
+
+            _diffComparisonRepository.Add(diffComparision);
+
+            return diffComparision.Id;
             
         }
 

@@ -13,6 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiffProject.Application", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiffProject.Domain", "Src\DiffProject.Domain\DiffProject.Domain.csproj", "{7A315D60-F6BA-4D76-BB66-73A1A3963A59}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{3A9D966B-6A8C-4CA3-998F-251257615FD7}"
+	ProjectSection(SolutionItems) = preProject
+		Test\Resources\LoremIpsum1.txt = Test\Resources\LoremIpsum1.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +72,7 @@ Global
 		{CB8D3C12-ABE1-41DE-A131-F33AD8BFE1D1} = {221EF56B-4211-4D19-92FA-984D715DC3B2}
 		{3AD1ABF8-CAA0-4807-8177-AF0FBE51A004} = {E2B828DF-E4D7-4ED5-A02E-F6ABAE10164F}
 		{7A315D60-F6BA-4D76-BB66-73A1A3963A59} = {E2B828DF-E4D7-4ED5-A02E-F6ABAE10164F}
+		{3A9D966B-6A8C-4CA3-998F-251257615FD7} = {221EF56B-4211-4D19-92FA-984D715DC3B2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E8F439C4-D4E0-4470-BEE2-93416F520B37}

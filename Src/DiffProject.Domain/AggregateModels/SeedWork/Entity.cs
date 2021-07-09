@@ -10,9 +10,14 @@ namespace DiffProject.Domain.AggregateModels.SeedWork
     {
         public virtual Guid Id {get; private set;}
 
+        /// <summary>
+        /// Property to keep the Fluent validation status
+        /// </summary>
+        public ValidationResult ValidationResult { get; private set; }
+
         public Entity() 
         {
-            Id = new Guid();
+            Id = Guid.NewGuid();
         }
 
         public Entity(Guid id)
@@ -29,8 +34,8 @@ namespace DiffProject.Domain.AggregateModels.SeedWork
         /// <returns></returns>
         protected bool Validate<TModel>(TModel model, AbstractValidator<TModel> validator)
         {
-            ValidationResult validation = validator.Validate(model);
-            return validation.IsValid;
+            ValidationResult = validator.Validate(model);
+            return ValidationResult.IsValid;
         }
     }
 }
