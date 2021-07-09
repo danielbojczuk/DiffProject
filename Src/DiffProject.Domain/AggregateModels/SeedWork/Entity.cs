@@ -8,14 +8,26 @@ namespace DiffProject.Domain.AggregateModels.SeedWork
     ///</summary>
     public abstract class Entity
     {
-        public Guid Id {get; private set;}
+        public virtual Guid Id {get; private set;}
 
         public Entity() 
         {
             Id = new Guid();
         }
 
-        public bool Validate<TModel>(TModel model, AbstractValidator<TModel> validator)
+        public Entity(Guid id)
+        {
+            Id = id;
+        }
+
+        /// <summary>
+        /// Execute the validation set with FluentValidation
+        /// </summary>
+        /// <typeparam name="TModel">Type of the model to be validated</typeparam>
+        /// <param name="model">The model object to be validated</param>
+        /// <param name="validator">The validaor class containing the validation rules</param>
+        /// <returns></returns>
+        protected bool Validate<TModel>(TModel model, AbstractValidator<TModel> validator)
         {
             ValidationResult validation = validator.Validate(model);
             return validation.IsValid;

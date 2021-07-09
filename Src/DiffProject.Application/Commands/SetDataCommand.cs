@@ -21,6 +21,6 @@ namespace DiffProject.Application.Commands
         ///<summary>
         ///The Base64 encoded binary data.
         ///</summary>
-        public ComparisonSideEnum SideOfComparison{get;set;}
+        public ComparisonSideEnum ComparisonSide{get;set;}
     }
 }

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using DiffProject.Domain.AggregateModels.ComparisonAggregate.Enums;
+using DiffProject.Domain.AggregateModels.ComparisonAggregate.Validators;
 using DiffProject.Domain.AggregateModels.SeedWork;
-using iffProject.Domain.AggregateModels.ComparisonAggregate;
 
 namespace DiffProject.Domain.AggregateModels.ComparisonAggregate
 {
@@ -10,11 +11,11 @@ namespace DiffProject.Domain.AggregateModels.ComparisonAggregate
     ///</summary>
     public class BinaryData: Entity
     {
-        public List<ComparisonSideEnum> ComparisonSide {get; private set;}
+        public ComparisonSideEnum ComparisonSide {get; private set;}
 
         public string Base64BinaryData {get; private set;}
 
-        public BinaryData(List<ComparisonSideEnum> comparisonSide, string base64BinaryData) : base()
+        public BinaryData(ComparisonSideEnum comparisonSide, string base64BinaryData) : base()
         {
             ComparisonSide = comparisonSide;
             Base64BinaryData = base64BinaryData;

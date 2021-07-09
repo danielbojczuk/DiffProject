@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 using DiffProject.Domain.AggregateModels.ComparisonAggregate;
 using FluentValidation;
 
-namespace iffProject.Domain.AggregateModels.ComparisonAggregate
+namespace DiffProject.Domain.AggregateModels.ComparisonAggregate.Validators
 {
     
     class BinaryDataValidator : AbstractValidator<BinaryData>
     {
-        
+        /// <summary>
+        /// Validations on BinaryData Entity
+        /// </summary>
         public BinaryDataValidator()
         {
             RuleFor(x => x.Base64BinaryData).NotNull().Must(x => CheckBase64(x)).WithMessage("Invalid Base64 String");

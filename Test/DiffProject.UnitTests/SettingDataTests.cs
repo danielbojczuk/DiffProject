@@ -10,13 +10,13 @@ namespace DiffProject.Tests.UnitTests
     public class SettingDataTests
     {
         [Fact]
-        public async void Set_New_Id_Right_Data()
+        public async void SetNewComparisonRightData()
         {
             SetDataCommandHandler commandHandler = new SetDataCommandHandler();
             var newId = await commandHandler.ExecuteAsync(new SetDataCommand
                                                 {
                                                     ComparisonID = Guid.NewGuid(),
-                                                    SideOfComparison = ComparisonSideEnum.Left,
+                                                    ComparisonSide = ComparisonSideEnum.Left,
                                                     Base64BinaryData = "a"
                                                 });
             

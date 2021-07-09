@@ -1,6 +1,6 @@
 using System;
 
-namespace DiffProject.Application.Enums
+namespace DiffProject.Domain.AggregateModels.ComparisonAggregate.Enums
 {
     public enum ComparisonSideEnum 
     {
