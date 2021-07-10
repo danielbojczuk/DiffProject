@@ -1,6 +1,7 @@
 using DiffProject.Application.CommandHandlers;
 using DiffProject.Application.Commands;
 using DiffProject.Application.Enums;
+using DiffProject.Application.Responses;
 using DiffProject.Domain.AggregateModels.ComparisonAggregate;
 using DiffProject.Domain.AggregateModels.ComparisonAggregate.Enums;
 using DiffProject.Domain.AggregateModels.ComparisonAggregate.RepositoryInterfaces;
@@ -49,7 +50,7 @@ namespace DiffProject.Tests.UnitTests
         /// <param name="comparisonSide">Comparison's side</param>
         /// <param name="base64EncodedString"> Binary data Base64 encoded string to be compared</param>
         /// <returns></returns>
-        private async Task<BinaryData> ExecuteCommand(Guid comparisonId, SideEnum comparisonSide, string base64EncodedString)
+        private async Task<UpdateBinaryDataResponse> ExecuteCommand(Guid comparisonId, SideEnum comparisonSide, string base64EncodedString)
         {
             UpdateBinaryDataCommandHandler commandHandler = new UpdateBinaryDataCommandHandler(_binaryDataRepositoryMock.Object);
             return await commandHandler.ExecuteAsync(new UpdateBinaryDataCommand
@@ -78,10 +79,10 @@ namespace DiffProject.Tests.UnitTests
             _binaryDataRepositoryMock.Setup(x => x.Update(It.IsAny<BinaryData>())).ReturnsAsync(new BinaryData(ComparisonSideEnum.Left, LoremIpsumOneBase64, Guid.NewGuid(), _binaryDataRepositoryMock.Object));
 
             //Executing the command
-            BinaryData newBinaryData = await ExecuteCommand(comparisonId, comparisonSide, LoremIpsumOneBase64);
+            UpdateBinaryDataResponse newBinaryData = await ExecuteCommand(comparisonId, comparisonSide, LoremIpsumOneBase64);
 
             //If eveything is OK the Repository Persisted the data and returned the entity
-            Assert.IsType<BinaryData>(newBinaryData);
+            Assert.IsType<UpdateBinaryDataResponse>(newBinaryData);
         }
 
         [Fact]
@@ -102,7 +103,7 @@ namespace DiffProject.Tests.UnitTests
             _binaryDataRepositoryMock.Setup(x => x.Update(It.IsAny<BinaryData>())).ReturnsAsync(new BinaryData(ComparisonSideEnum.Left, LoremIpsumOneBase64, Guid.NewGuid(), _binaryDataRepositoryMock.Object));
 
             //Executing the command
-            BinaryData newBinaryData = await ExecuteCommand(comparisonId, comparisonSide, LoremIpsumOneBase64);
+            UpdateBinaryDataResponse newBinaryData = await ExecuteCommand(comparisonId, comparisonSide, LoremIpsumOneBase64);
 
 
             Assert.Null(newBinaryData);
@@ -128,7 +129,7 @@ namespace DiffProject.Tests.UnitTests
             _binaryDataRepositoryMock.Setup(x => x.Update(It.IsAny<BinaryData>())).ReturnsAsync(new BinaryData(ComparisonSideEnum.Left, LoremIpsumOneBase64, Guid.NewGuid(), _binaryDataRepositoryMock.Object));
 
             //Executing the command
-            BinaryData newBinaryData = await ExecuteCommand(comparisonId, comparisonSide, base64String);
+            UpdateBinaryDataResponse newBinaryData = await ExecuteCommand(comparisonId, comparisonSide, base64String);
 
 
             Assert.Null(newBinaryData);

@@ -1,5 +1,6 @@
 ﻿using DiffProject.Application.Commands;
 using DiffProject.Application.Enums;
+using DiffProject.Application.Responses;
 using DiffProject.Domain.AggregateModels.ComparisonAggregate;
 using DiffProject.Domain.AggregateModels.ComparisonAggregate.Enums;
 using DiffProject.Domain.AggregateModels.ComparisonAggregate.RepositoryInterfaces;
@@ -10,7 +11,7 @@ namespace DiffProject.Application.CommandHandlers
     ///<summary>
     ///Handles the Command Set Data to perform an inclusion of a binary data to compare.
     ///</summary>
-    public class UpdateBinaryDataCommandHandler : AbstractCommandHandler<BinaryData, UpdateBinaryDataCommand>
+    public class UpdateBinaryDataCommandHandler : AbstractCommandHandler<UpdateBinaryDataResponse, UpdateBinaryDataCommand>
     {
         public IBinaryDataRepository BinaryDataRepository { get; private set; }
 
@@ -23,7 +24,7 @@ namespace DiffProject.Application.CommandHandlers
         ///Execute Async the 'Update Data' Command
         ///</summary>
         ///<param name="command">Command to be handled with the Comparison Id and the Bas64 Binary Data</param>
-        public override async Task<BinaryData> ExecuteAsync(UpdateBinaryDataCommand command)
+        public override async Task<UpdateBinaryDataResponse> ExecuteAsync(UpdateBinaryDataCommand command)
         {
             BinaryData binaryData = await BinaryDataRepository.RetrieveDBinaryDataByComparisonIdAndSide(command.CurrentComparisonID, ConvertCommandEnumToEntityEnum(command.CurrentComparisonSide));
 
@@ -34,7 +35,13 @@ namespace DiffProject.Application.CommandHandlers
             if (!binaryData.ValidationResult.IsValid)
                 return null;
 
-            return await BinaryDataRepository.Update(binaryData);
+            BinaryData updatedBinaryData = await BinaryDataRepository.Update(binaryData);
+
+            return new UpdateBinaryDataResponse { 
+                Id = updatedBinaryData.Id, 
+                ComparisonId = updatedBinaryData.ComparisonId, 
+                Base64BinaryData = updatedBinaryData.Base64BinaryData, 
+                ComparisonSide = ConvertEntityEnumToCommandEnum(updatedBinaryData.ComparisonSide) };
         }
         /// <summary>
         /// Method to convert the Application Enum to the Domain Enum
@@ -47,5 +54,15 @@ namespace DiffProject.Application.CommandHandlers
             return (ComparisonSideEnum)integerEnumValue;
         }
 
+        /// <summary>
+        /// Method to convert the  Domain Enum to the Application Enum
+        /// </summary>
+        /// <param name="commandEnum">The Entity Side Enum</param>
+        /// <returns></returns>
+        private SideEnum ConvertEntityEnumToCommandEnum(ComparisonSideEnum commandEnum)
+        {
+            int integerEnumValue = (int)commandEnum;
+            return (SideEnum)integerEnumValue;
+        }
     }
 }
