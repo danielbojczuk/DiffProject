@@ -6,7 +6,7 @@ namespace DiffProject.Application.Commands
     ///<summary>
     ///The 'Set Data' Command to be handled by the application.
     ///</summary>
-    public class SetDataCommand
+    public class SetBinaryDataCommand
     {
         ///<summary>
         ///Id of the Comparison: shlould be the same for the left and right data.
@@ -21,6 +21,6 @@ namespace DiffProject.Application.Commands
         ///<summary>
         ///The Base64 encoded binary data.
         ///</summary>
-        public ComparisonSideEnum ComparisonSide{get;set;}
+        public SideEnum ComparisonSide{get;set;}
     }
 }

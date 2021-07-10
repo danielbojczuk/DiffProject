@@ -20,11 +20,6 @@ namespace DiffProject.Domain.AggregateModels.SeedWork
             Id = Guid.NewGuid();
         }
 
-        public Entity(Guid id)
-        {
-            Id = id;
-        }
-
         /// <summary>
         /// Execute the validation set with FluentValidation
         /// </summary>
