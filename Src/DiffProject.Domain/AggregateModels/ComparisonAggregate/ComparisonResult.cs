@@ -16,7 +16,16 @@ namespace DiffProject.Domain.AggregateModels.ComparisonAggregate
         /// <summary>
         /// It will be true only if both sides are totaly equal. It will be null if it has not been calculated yet.
         /// </summary>
-        public bool? SidesEqual { get; private set; }
+        public bool? SidesEqual
+        {
+            get
+            {
+                if (SameSize == null)
+                    return null;
+
+                return (bool)SameSize && Differences.Count == 0;
+            }
+        }
 
         /// <summary>
         /// It will be true only if both sides are totaly equal. It will be null if it has not been calculated yet.
@@ -43,7 +52,6 @@ namespace DiffProject.Domain.AggregateModels.ComparisonAggregate
 
         public ComparisonResult(Guid comparisonId) : base()
         {
-            SidesEqual = null;
             SameSize = null;
             Differences = new Dictionary<long, long>();
             BinaryDataToCompare = new List<BinaryData>();
@@ -60,6 +68,12 @@ namespace DiffProject.Domain.AggregateModels.ComparisonAggregate
             Validate(this, new ComparisonResultValidator(false));
         }
 
+        /// <summary>
+        /// Compare the bynary data using the logic
+        /// 
+        /// If both sides have the same lenght it will iterate throu the byte array to check if they are
+        /// equal. If some diferece were found it will add the position and lengh of the difference.
+        /// </summary>
         public void Compare()
         {
             Validate(this, new ComparisonResultValidator(true));
@@ -74,20 +88,20 @@ namespace DiffProject.Domain.AggregateModels.ComparisonAggregate
                 {
                     bool sequenceEqual = true;
                     int offset = 0;
-                    for (int i = 0; i <= leftSide.Length; i++)
+                    for (int i = 0; i < leftSide.Length; i++)
                     {
-                        if (leftSide[i] != rightSide[i])
+                        if (leftSide[i] != rightSide[i] && sequenceEqual == true)
                         {
                             offset = i;
                             sequenceEqual = false;
-                            UpdateSidesEqual(false);
                         } else if (leftSide[i] == rightSide[i] && sequenceEqual == false)
                         {
                             Differences.Add(offset, i - offset);
                             sequenceEqual = true;
                         }
                     }
-                    UpdateSidesEqual(true);
+                    if(sequenceEqual == false)
+                        Differences.Add(offset, leftSide.Length - offset);
                 }
             }
         }
@@ -105,17 +119,5 @@ namespace DiffProject.Domain.AggregateModels.ComparisonAggregate
                 SameSize = false;
         }
 
-
-        /// <summary>
-        /// It will update the SidesEqual result just if there wasn't any request to update to false
-        /// </summary>
-        /// <param name="situation"></param>
-        private void UpdateSidesEqual(bool situation)
-        {
-            if (situation == true && SidesEqual == null)
-                SidesEqual = true;
-            else if (situation == false)
-                SidesEqual = false;
-        }
     }
 }

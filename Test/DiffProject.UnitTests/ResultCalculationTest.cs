@@ -1,6 +1,6 @@
 using DiffProject.Application.CommandHandlers;
 using DiffProject.Application.Commands;
-using DiffProject.Application.Enums;
+using DiffProject.Application.Responses;
 using DiffProject.Domain.AggregateModels.ComparisonAggregate;
 using DiffProject.Domain.AggregateModels.ComparisonAggregate.Enums;
 using DiffProject.Domain.AggregateModels.ComparisonAggregate.RepositoryInterfaces;
@@ -61,7 +61,7 @@ namespace DiffProject.Tests.UnitTests
         {
             get
             {
-                return Convert.ToBase64String(File.ReadAllBytes(_LoremIpsumTwoPath));
+                return Convert.ToBase64String(File.ReadAllBytes(_LoremIpsumDifferentSizePath));
             }
         }
 
@@ -85,7 +85,7 @@ namespace DiffProject.Tests.UnitTests
         /// <param name="comparisonSide">Comparison's side</param>
         /// <param name="base64EncodedString"> Binary data Base64 encoded string to be compared</param>
         /// <returns></returns>
-        private async Task<ComparisonResult> ExecuteCommand(Guid comparisonId)
+        private async Task<CalculationResponse> ExecuteCommand(Guid comparisonId)
         {
             CalculationCommandHandler commandHandler = new CalculationCommandHandler(_binaryDataRepositoryMock.Object);
             return await commandHandler.ExecuteAsync(new CalculationCommand
@@ -115,6 +115,7 @@ namespace DiffProject.Tests.UnitTests
         [Fact]
         public async void TryToCompareWithDuplicatedSide()
         {
+            //Setting values to be uded in the testss
             Guid comparisonId = Guid.NewGuid();
             List<BinaryData> binarryDataList = new List<BinaryData>();
             binarryDataList.Add(new BinaryData(ComparisonSideEnum.Left, LoremIpsumOneBase64, comparisonId, _binaryDataRepositoryMock.Object));
@@ -132,6 +133,7 @@ namespace DiffProject.Tests.UnitTests
         [Fact]
         public async void TryToCompareWithThreeSides()
         {
+            //Setting values to be uded in the testss
             Guid comparisonId = Guid.NewGuid();
             List<BinaryData> binarryDataList = new List<BinaryData>();
             binarryDataList.Add(new BinaryData(ComparisonSideEnum.Left, LoremIpsumOneBase64, comparisonId, _binaryDataRepositoryMock.Object));
@@ -148,28 +150,69 @@ namespace DiffProject.Tests.UnitTests
         }
 
         [Fact]
-        public async void CompareRqualFiles()
+        public async void CompareEqualFiles()
         {
-            Assert.Equal(1, 2);
+            //Setting values to be uded in the testss
+            Guid comparisonId = Guid.NewGuid();
+            List<BinaryData> binarryDataList = new List<BinaryData>();
+            binarryDataList.Add(new BinaryData(ComparisonSideEnum.Left, LoremIpsumOneBase64, comparisonId, _binaryDataRepositoryMock.Object));
+            binarryDataList.Add(new BinaryData(ComparisonSideEnum.Right, LoremIpsumOneBase64, comparisonId, _binaryDataRepositoryMock.Object));
+
+            //Mocking the return of the binary data to compare
+            _binaryDataRepositoryMock.Setup(x => x.RetrieveDBinaryDataByComparisonId(comparisonId)).ReturnsAsync(binarryDataList);
+
+            //Executing commnad
+            CalculationResponse result = await ExecuteCommand(comparisonId);
+
+            Assert.True(result.SidesEqual);
+            Assert.True(result.SameSize);
+            Assert.Empty(result.Differences);
         }
 
         [Fact]
         public async void CompareDifferentSizeFiles()
         {
-            Assert.Equal(1, 2);
+            //Setting values to be uded in the testss
+            Guid comparisonId = Guid.NewGuid();
+            List<BinaryData> binarryDataList = new List<BinaryData>();
+            binarryDataList.Add(new BinaryData(ComparisonSideEnum.Left, LoremIpsumOneBase64, comparisonId, _binaryDataRepositoryMock.Object));
+            binarryDataList.Add(new BinaryData(ComparisonSideEnum.Right, LoremIpsumDifferentSizeBase64, comparisonId, _binaryDataRepositoryMock.Object));
+
+            //Mocking the return of the binary data to compare
+            _binaryDataRepositoryMock.Setup(x => x.RetrieveDBinaryDataByComparisonId(comparisonId)).ReturnsAsync(binarryDataList);
+
+            //Executing commnad
+            CalculationResponse result = await ExecuteCommand(comparisonId);
+
+            Assert.False(result.SidesEqual);
+            Assert.False(result.SameSize);
+            Assert.Empty(result.Differences);
         }
 
         [Fact]
-        public async void CompareIqualSizeDifferentFiles()
+        public async void CompareEqualSizeDifferentFiles()
         {
-            Assert.Equal(1, 2);
-        }
+            //Setting values to be uded in the testss
+            Guid comparisonId = Guid.NewGuid();
+            List<BinaryData> binarryDataList = new List<BinaryData>();
+            binarryDataList.Add(new BinaryData(ComparisonSideEnum.Left, LoremIpsumOneBase64, comparisonId, _binaryDataRepositoryMock.Object));
+            binarryDataList.Add(new BinaryData(ComparisonSideEnum.Right, LoremIpsumTwoBase64, comparisonId, _binaryDataRepositoryMock.Object));
+            Dictionary<long, long> expectedDifferences = new Dictionary<long, long>();
+            expectedDifferences.Add(12, 5);
+            expectedDifferences.Add(24, 2);
 
-        public async void CompareAgain()
-        {
-            Assert.Equal(1, 2);
-        }
 
+            //Mocking the return of the binary data to compare
+            _binaryDataRepositoryMock.Setup(x => x.RetrieveDBinaryDataByComparisonId(comparisonId)).ReturnsAsync(binarryDataList);
+
+            //Executing commnad
+            CalculationResponse result = await ExecuteCommand(comparisonId);
+
+            Assert.False(result.SidesEqual);
+            Assert.True(result.SameSize);
+            Assert.Equal(expectedDifferences, result.Differences);
+            
+        }
 
     }
 }

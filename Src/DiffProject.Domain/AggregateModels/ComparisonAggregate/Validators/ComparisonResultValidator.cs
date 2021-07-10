@@ -5,6 +5,9 @@ namespace DiffProject.Domain.AggregateModels.ComparisonAggregate.Validators
 {
     internal class ComparisonResultValidator : AbstractValidator<ComparisonResult>
     {
+        /// <summary>
+        /// Validations on ComparisonResult Entity 
+        /// </summary>
         public ComparisonResultValidator(bool validationToCompare)
         {
             RuleFor(x => x.BinaryDataToCompare).Must(y => y.Count <= 2).WithMessage("You can't have more than two Binary Data to compare");
