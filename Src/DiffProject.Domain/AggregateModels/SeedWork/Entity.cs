@@ -1,6 +1,6 @@
-﻿using System;
-using FluentValidation;
+﻿using FluentValidation;
 using FluentValidation.Results;
+using System;
 namespace DiffProject.Domain.AggregateModels.SeedWork
 {
     ///<summary>
@@ -8,16 +8,22 @@ namespace DiffProject.Domain.AggregateModels.SeedWork
     ///</summary>
     public abstract class Entity
     {
-        public virtual Guid Id {get; private set;}
+        public Guid Id { get; private set; }
+
+        /// <summary>
+        /// Keeps the Result active or just for history checking
+        /// </summary>
+        public bool Active { get; private set; }
 
         /// <summary>
         /// Property to keep the Fluent validation status
         /// </summary>
         public ValidationResult ValidationResult { get; private set; }
 
-        public Entity() 
+        public Entity()
         {
             Id = Guid.NewGuid();
+            Active = true;
         }
 
         /// <summary>
@@ -32,5 +38,11 @@ namespace DiffProject.Domain.AggregateModels.SeedWork
             ValidationResult = validator.Validate(model);
             return ValidationResult.IsValid;
         }
+
+        public void DesactivateEntity()
+        {
+            Active = false;
+        }
+
     }
 }

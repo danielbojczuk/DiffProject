@@ -1,10 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using DiffProject.Application.Commands;
+﻿using DiffProject.Application.Commands;
 using DiffProject.Application.Enums;
 using DiffProject.Domain.AggregateModels.ComparisonAggregate;
 using DiffProject.Domain.AggregateModels.ComparisonAggregate.Enums;
 using DiffProject.Domain.AggregateModels.ComparisonAggregate.RepositoryInterfaces;
+using System.Threading.Tasks;
 
 namespace DiffProject.Application.CommandHandlers
 {
@@ -27,7 +26,7 @@ namespace DiffProject.Application.CommandHandlers
         public override async Task<BinaryData> ExecuteAsync(UpdateBinaryDataCommand command)
         {
             BinaryData binaryData = await BinaryDataRepository.RetrieveDBinaryDataByComparisonIdAndSide(command.CurrentComparisonID, ConvertCommandEnumToEntityEnum(command.CurrentComparisonSide));
-            
+
             if (binaryData == null)
                 return null;
 
@@ -36,7 +35,6 @@ namespace DiffProject.Application.CommandHandlers
                 return null;
 
             return await BinaryDataRepository.Update(binaryData);
-            
         }
         /// <summary>
         /// Method to convert the Application Enum to the Domain Enum

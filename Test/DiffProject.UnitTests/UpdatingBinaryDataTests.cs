@@ -1,18 +1,18 @@
-using System;
-using Xunit;
-using System.IO;
 using DiffProject.Application.CommandHandlers;
 using DiffProject.Application.Commands;
 using DiffProject.Application.Enums;
-using Moq;
-using DiffProject.Domain.AggregateModels.ComparisonAggregate.RepositoryInterfaces;
 using DiffProject.Domain.AggregateModels.ComparisonAggregate;
 using DiffProject.Domain.AggregateModels.ComparisonAggregate.Enums;
+using DiffProject.Domain.AggregateModels.ComparisonAggregate.RepositoryInterfaces;
+using Moq;
+using System;
+using System.IO;
 using System.Threading.Tasks;
+using Xunit;
 
 namespace DiffProject.Tests.UnitTests
 {
-    
+
     public class UpdatingBinaryDataTests
     {
         /// <summary>
@@ -23,7 +23,9 @@ namespace DiffProject.Tests.UnitTests
         /// <summary>
         /// Property to return the base64 encoded string to be used in the tests
         /// </summary>
-        private string LoremIpsumOneBase64 { get
+        private string LoremIpsumOneBase64
+        {
+            get
             {
                 return Convert.ToBase64String(File.ReadAllBytes(_LoremIpsumOnePath));
             }
@@ -65,16 +67,15 @@ namespace DiffProject.Tests.UnitTests
             Guid comparisonId = Guid.NewGuid();
             SideEnum comparisonSide = SideEnum.Right;
 
-
             //Mocking the repository to return null for every query in order to create a valid entity for the test
             _binaryDataRepositoryMock.Setup(x => x.RetrieveDBinaryDataByComparisonIdAndSide(It.IsAny<Guid>(), It.IsAny<ComparisonSideEnum>())).Returns(Task.FromResult<BinaryData>(null));
 
             //Mocking the repository to get BinaryData to update
             BinaryData binaryData = new BinaryData(ComparisonSideEnum.Right, LoremIpsumOneBase64, comparisonId, _binaryDataRepositoryMock.Object);
-            _binaryDataRepositoryMock.Setup(x => x.RetrieveDBinaryDataByComparisonIdAndSide(It.IsAny<Guid>(), It.IsAny<ComparisonSideEnum>())).Returns(Task.FromResult(binaryData));
+            _binaryDataRepositoryMock.Setup(x => x.RetrieveDBinaryDataByComparisonIdAndSide(It.IsAny<Guid>(), It.IsAny<ComparisonSideEnum>())).ReturnsAsync(binaryData);
 
             //Mocking the repository to return a BinaryData on update statement
-            _binaryDataRepositoryMock.Setup(x => x.Update(It.IsAny<BinaryData>())).Returns(Task.FromResult(new BinaryData(ComparisonSideEnum.Left, LoremIpsumOneBase64, Guid.NewGuid(), _binaryDataRepositoryMock.Object)));
+            _binaryDataRepositoryMock.Setup(x => x.Update(It.IsAny<BinaryData>())).ReturnsAsync(new BinaryData(ComparisonSideEnum.Left, LoremIpsumOneBase64, Guid.NewGuid(), _binaryDataRepositoryMock.Object));
 
             //Executing the command
             BinaryData newBinaryData = await ExecuteCommand(comparisonId, comparisonSide, LoremIpsumOneBase64);
@@ -90,17 +91,20 @@ namespace DiffProject.Tests.UnitTests
             Guid comparisonId = Guid.NewGuid();
             SideEnum comparisonSide = SideEnum.Right;
 
-
-            //Mocking the repository to return null for every query
+            //Mocking the repository to return null for every query in order to create a valid entity for the test
             _binaryDataRepositoryMock.Setup(x => x.RetrieveDBinaryDataByComparisonIdAndSide(It.IsAny<Guid>(), It.IsAny<ComparisonSideEnum>())).Returns(Task.FromResult<BinaryData>(null));
 
+            //Mocking the repository to already have a Left Binary Data
+            BinaryData binaryData = new BinaryData(ComparisonSideEnum.Left, LoremIpsumOneBase64, comparisonId, _binaryDataRepositoryMock.Object);
+            _binaryDataRepositoryMock.Setup(x => x.RetrieveDBinaryDataByComparisonIdAndSide(It.IsAny<Guid>(), ComparisonSideEnum.Left)).ReturnsAsync(binaryData);
+
             //Mocking the repository to return a BinaryData on update statement
-            _binaryDataRepositoryMock.Setup(x => x.Update(It.IsAny<BinaryData>())).Returns(Task.FromResult(new BinaryData(ComparisonSideEnum.Left, LoremIpsumOneBase64, Guid.NewGuid(), _binaryDataRepositoryMock.Object)));
+            _binaryDataRepositoryMock.Setup(x => x.Update(It.IsAny<BinaryData>())).ReturnsAsync(new BinaryData(ComparisonSideEnum.Left, LoremIpsumOneBase64, Guid.NewGuid(), _binaryDataRepositoryMock.Object));
 
             //Executing the command
             BinaryData newBinaryData = await ExecuteCommand(comparisonId, comparisonSide, LoremIpsumOneBase64);
 
-            
+
             Assert.Null(newBinaryData);
         }
 
@@ -110,6 +114,7 @@ namespace DiffProject.Tests.UnitTests
             //Data to be used in the test
             Guid comparisonId = Guid.NewGuid();
             SideEnum comparisonSide = SideEnum.Right;
+            string base64String = "NotABase64";
 
 
             //Mocking the repository to return null for every query in order to create a valid entity for the test
@@ -120,12 +125,12 @@ namespace DiffProject.Tests.UnitTests
             _binaryDataRepositoryMock.Setup(x => x.RetrieveDBinaryDataByComparisonIdAndSide(It.IsAny<Guid>(), It.IsAny<ComparisonSideEnum>())).Returns(Task.FromResult(binaryData));
 
             //Mocking the repository to return a BinaryData on update statement
-            _binaryDataRepositoryMock.Setup(x => x.Update(It.IsAny<BinaryData>())).Returns(Task.FromResult(new BinaryData(ComparisonSideEnum.Left, LoremIpsumOneBase64, Guid.NewGuid(), _binaryDataRepositoryMock.Object)));
+            _binaryDataRepositoryMock.Setup(x => x.Update(It.IsAny<BinaryData>())).ReturnsAsync(new BinaryData(ComparisonSideEnum.Left, LoremIpsumOneBase64, Guid.NewGuid(), _binaryDataRepositoryMock.Object));
 
             //Executing the command
-            BinaryData newBinaryData = await ExecuteCommand(comparisonId, comparisonSide, "NotABase64");
+            BinaryData newBinaryData = await ExecuteCommand(comparisonId, comparisonSide, base64String);
 
-            
+
             Assert.Null(newBinaryData);
         }
 

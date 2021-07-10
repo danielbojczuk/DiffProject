@@ -1,17 +1,16 @@
-﻿using System;
-using System.Threading.Tasks;
-using DiffProject.Application.Commands;
+﻿using DiffProject.Application.Commands;
 using DiffProject.Application.Enums;
 using DiffProject.Domain.AggregateModels.ComparisonAggregate;
 using DiffProject.Domain.AggregateModels.ComparisonAggregate.Enums;
 using DiffProject.Domain.AggregateModels.ComparisonAggregate.RepositoryInterfaces;
+using System.Threading.Tasks;
 
 namespace DiffProject.Application.CommandHandlers
 {
     ///<summary>
     ///Handles the Command Set Data to perform an inclusion of a binary data to compare.
     ///</summary>
-    public class SetBinaryDataCommandHandler:AbstractCommandHandler<BinaryData, SetBinaryDataCommand>
+    public class SetBinaryDataCommandHandler : AbstractCommandHandler<BinaryData, SetBinaryDataCommand>
     {
         public IBinaryDataRepository BinaryDataRepository { get; private set; }
 
@@ -31,7 +30,7 @@ namespace DiffProject.Application.CommandHandlers
                 return null;
 
             return await BinaryDataRepository.Add(binaryData);
-            
+
         }
         /// <summary>
         /// Method to convert the Application Enum to the Domain Enum

@@ -1,9 +1,7 @@
-﻿using System;
+﻿using DiffProject.Domain.AggregateModels.ComparisonAggregate.Enums;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using DiffProject.Domain.AggregateModels.ComparisonAggregate.Enums;
 
 namespace DiffProject.Domain.AggregateModels.ComparisonAggregate.RepositoryInterfaces
 {
@@ -26,11 +24,18 @@ namespace DiffProject.Domain.AggregateModels.ComparisonAggregate.RepositoryInter
         Task<BinaryData> Update(BinaryData binaryData);
 
         /// <summary>
-        /// Retrieve the Binary Data By Comparison ID and Side
+        /// Retrieve the Active Binary Data By Comparison ID and Side
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="comparisonid"></param>
         /// <returns></returns>
-        Task<BinaryData> RetrieveDBinaryDataByComparisonIdAndSide(Guid id, ComparisonSideEnum side);
+        Task<BinaryData> RetrieveDBinaryDataByComparisonIdAndSide(Guid comparisonid, ComparisonSideEnum side);
+
+        /// <summary>
+        /// Retrieve the Active Binary Data By Comparison ID and Side
+        /// </summary>
+        /// <param name="comparisonid"></param>
+        /// <returns></returns>
+        Task<List<BinaryData>> RetrieveDBinaryDataByComparisonId(Guid comparisonid);
 
     }
 }

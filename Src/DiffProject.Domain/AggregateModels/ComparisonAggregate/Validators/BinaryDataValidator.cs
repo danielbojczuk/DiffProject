@@ -1,22 +1,35 @@
-using System;
-using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
-using DiffProject.Domain.AggregateModels.ComparisonAggregate;
 using DiffProject.Domain.AggregateModels.ComparisonAggregate.RepositoryInterfaces;
 using FluentValidation;
+using System;
 
 namespace DiffProject.Domain.AggregateModels.ComparisonAggregate.Validators
 {
-    
+
     class BinaryDataValidator : AbstractValidator<BinaryData>
     {
 
+        IBinaryDataRepository _binaryDataRepository;
+
         /// <summary>
-        /// Validations on BinaryData Entity
+        /// Validations on BinaryData Entity 
         /// </summary>
-        public BinaryDataValidator()
+        public BinaryDataValidator(IBinaryDataRepository binaryDataRepository, bool isUpdate)
         {
+            _binaryDataRepository = binaryDataRepository;
+
+            //Duplicity validation must be checked only for new Entities
+            RuleFor(x => x).MustAsync(async (binaryData, cancellation) =>
+            {
+                if (isUpdate)
+                    return true;
+
+                BinaryData existingBinaryData = await _binaryDataRepository.RetrieveDBinaryDataByComparisonIdAndSide(binaryData.ComparisonId, binaryData.ComparisonSide);
+                return existingBinaryData == null;
+
+            }
+            ).WithMessage("There is already a Binary Data with this Comparison Id and Side");
+
+            //Base64 Validation
             RuleFor(x => x.Base64BinaryData).NotNull().Must(x => CheckBase64(x)).WithMessage("Invalid Base64 String");
         }
 
@@ -41,6 +54,5 @@ namespace DiffProject.Domain.AggregateModels.ComparisonAggregate.Validators
                 return false;
             }
         }
-
     }
 }

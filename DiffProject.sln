@@ -16,6 +16,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{3A9D966B-6A8C-4CA3-998F-251257615FD7}"
 	ProjectSection(SolutionItems) = preProject
 		Test\Resources\LoremIpsum1.txt = Test\Resources\LoremIpsum1.txt
+		Test\Resources\LoremIpsum2.txt = Test\Resources\LoremIpsum2.txt
+		Test\Resources\LoremIpsumDifferentSize.txt = Test\Resources\LoremIpsumDifferentSize.txt
 	EndProjectSection
 EndProject
 Global

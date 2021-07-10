@@ -1,26 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using DiffProject.Domain.AggregateModels.ComparisonAggregate.Enums;
+﻿using DiffProject.Domain.AggregateModels.ComparisonAggregate.Enums;
+using DiffProject.Domain.AggregateModels.ComparisonAggregate.RepositoryInterfaces;
 using DiffProject.Domain.AggregateModels.ComparisonAggregate.Validators;
 using DiffProject.Domain.AggregateModels.SeedWork;
-using DiffProject.Domain.AggregateModels.ComparisonAggregate.RepositoryInterfaces;
+using System;
 
 namespace DiffProject.Domain.AggregateModels.ComparisonAggregate
 {
     ///<summary>
     ///Entity that represents the data to be compared.
     ///</summary>
-    public class BinaryData: Entity
+    public class BinaryData : Entity
     {
+        private IBinaryDataRepository _binaryDataRepository;
+
         /// <summary>
         /// Side de data should be on comparison
         /// </summary>
-        public ComparisonSideEnum ComparisonSide {get; private set;}
+        public ComparisonSideEnum ComparisonSide { get; private set; }
 
         /// <summary>
         /// Base64 encoded binary Data
         /// </summary>
-        public string Base64BinaryData {get; private set;}
+        public string Base64BinaryData { get; private set; }
 
         /// <summary>
         /// ComparisonId used in both sides and result.
@@ -33,14 +34,14 @@ namespace DiffProject.Domain.AggregateModels.ComparisonAggregate
             ComparisonSide = comparisonSide;
             Base64BinaryData = base64BinaryData;
             ComparisonId = comparisonId;
-            Validate(this,new BinaryDataValidator());
-            Validate(this, new BinaryDataDuplicityValidator(binaryDataRepository));
+            _binaryDataRepository = binaryDataRepository;
+            Validate(this, new BinaryDataValidator(_binaryDataRepository, false));
         }
 
         public void UpdateBase64BinaryFile(string base64BinaryFile)
         {
             Base64BinaryData = base64BinaryFile;
-            Validate(this, new BinaryDataValidator());
+            Validate(this, new BinaryDataValidator(_binaryDataRepository,true));
         }
     }
 }

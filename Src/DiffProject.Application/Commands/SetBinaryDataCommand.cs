@@ -1,5 +1,5 @@
-﻿using System;
-using DiffProject.Application.Enums;
+﻿using DiffProject.Application.Enums;
+using System;
 
 namespace DiffProject.Application.Commands
 {
@@ -11,16 +11,16 @@ namespace DiffProject.Application.Commands
         ///<summary>
         ///Id of the Comparison: shlould be the same for the left and right data.
         ///</summary>
-        public Guid ComparisonID {get;set;}
+        public Guid ComparisonID { get; set; }
 
         ///<summary>
         ///The Base64 encoded binary data.
         ///</summary>
-        public String Base64BinaryData{get;set;}
+        public String Base64BinaryData { get; set; }
 
         ///<summary>
         ///The side to use in the comparison.
         ///</summary>
-        public SideEnum ComparisonSide{get;set;}
+        public SideEnum ComparisonSide { get; set; }
     }
 }
