@@ -19,7 +19,7 @@ namespace DiffProject.Application.Commands
         public String Base64BinaryData{get;set;}
 
         ///<summary>
-        ///The Base64 encoded binary data.
+        ///The side to use in the comparison.
         ///</summary>
         public SideEnum ComparisonSide{get;set;}
     }

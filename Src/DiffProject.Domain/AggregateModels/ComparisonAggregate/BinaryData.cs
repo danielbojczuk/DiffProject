@@ -33,7 +33,14 @@ namespace DiffProject.Domain.AggregateModels.ComparisonAggregate
             ComparisonSide = comparisonSide;
             Base64BinaryData = base64BinaryData;
             ComparisonId = comparisonId;
-            Validate(this,new BinaryDataValidator(binaryDataRepository));
+            Validate(this,new BinaryDataValidator());
+            Validate(this, new BinaryDataDuplicityValidator(binaryDataRepository));
+        }
+
+        public void UpdateBase64BinaryFile(string base64BinaryFile)
+        {
+            Base64BinaryData = base64BinaryFile;
+            Validate(this, new BinaryDataValidator());
         }
     }
 }

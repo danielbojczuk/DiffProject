@@ -11,26 +11,31 @@ namespace DiffProject.Application.CommandHandlers
     ///<summary>
     ///Handles the Command Set Data to perform an inclusion of a binary data to compare.
     ///</summary>
-    public class SetBinaryDataCommandHandler:AbstractCommandHandler<BinaryData, SetBinaryDataCommand>
+    public class UpdateBinaryDataCommandHandler : AbstractCommandHandler<BinaryData, UpdateBinaryDataCommand>
     {
         public IBinaryDataRepository BinaryDataRepository { get; private set; }
 
-        public SetBinaryDataCommandHandler(IBinaryDataRepository binaryDataRepository)
+        public UpdateBinaryDataCommandHandler(IBinaryDataRepository binaryDataRepository)
         {
             BinaryDataRepository = binaryDataRepository;
         }
 
         ///<summary>
-        ///Execute Async the 'Set Data' Command
+        ///Execute Async the 'Update Data' Command
         ///</summary>
         ///<param name="command">Command to be handled with the Comparison Id and the Bas64 Binary Data</param>
-        public override async Task<BinaryData> ExecuteAsync(SetBinaryDataCommand command)
+        public override async Task<BinaryData> ExecuteAsync(UpdateBinaryDataCommand command)
         {
-            BinaryData binaryData = new BinaryData(ConvertCommandEnumToEntityEnum(command.ComparisonSide), command.Base64BinaryData, command.ComparisonID, BinaryDataRepository);
+            BinaryData binaryData = await BinaryDataRepository.RetrieveDBinaryDataByComparisonIdAndSide(command.CurrentComparisonID, ConvertCommandEnumToEntityEnum(command.CurrentComparisonSide));
+            
+            if (binaryData == null)
+                return null;
+
+            binaryData.UpdateBase64BinaryFile(command.NewBase64BinaryData);
             if (!binaryData.ValidationResult.IsValid)
                 return null;
 
-            return await BinaryDataRepository.Add(binaryData);
+            return await BinaryDataRepository.Update(binaryData);
             
         }
         /// <summary>

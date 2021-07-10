@@ -20,6 +20,12 @@ namespace DiffProject.Domain.AggregateModels.ComparisonAggregate.RepositoryInter
         Task<BinaryData> Add(BinaryData binaryData);
 
         /// <summary>
+        /// Persist the updates in the BinaryData entity
+        /// </summary>
+        /// <param name="diffComparison">DiffComparisonEntity</param>
+        Task<BinaryData> Update(BinaryData binaryData);
+
+        /// <summary>
         /// Retrieve the Binary Data By Comparison ID and Side
         /// </summary>
         /// <param name="id"></param>
