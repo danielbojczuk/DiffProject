@@ -41,7 +41,7 @@ namespace DiffProject.Domain.AggregateModels.ComparisonAggregate
         public void UpdateBase64BinaryFile(string base64BinaryFile)
         {
             Base64BinaryData = base64BinaryFile;
-            Validate(this, new BinaryDataValidator(_binaryDataRepository,true));
+            Validate(this, new BinaryDataValidator(_binaryDataRepository, true));
         }
     }
 }

@@ -37,11 +37,13 @@ namespace DiffProject.Application.CommandHandlers
 
             BinaryData updatedBinaryData = await BinaryDataRepository.Update(binaryData);
 
-            return new UpdateBinaryDataResponse { 
-                Id = updatedBinaryData.Id, 
-                ComparisonId = updatedBinaryData.ComparisonId, 
-                Base64BinaryData = updatedBinaryData.Base64BinaryData, 
-                ComparisonSide = ConvertEntityEnumToCommandEnum(updatedBinaryData.ComparisonSide) };
+            return new UpdateBinaryDataResponse
+            {
+                Id = updatedBinaryData.Id,
+                ComparisonId = updatedBinaryData.ComparisonId,
+                Base64BinaryData = updatedBinaryData.Base64BinaryData,
+                ComparisonSide = ConvertEntityEnumToCommandEnum(updatedBinaryData.ComparisonSide)
+            };
         }
         /// <summary>
         /// Method to convert the Application Enum to the Domain Enum

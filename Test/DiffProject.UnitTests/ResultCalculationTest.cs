@@ -102,7 +102,7 @@ namespace DiffProject.Tests.UnitTests
             Guid comparisonId = Guid.NewGuid();
             List<BinaryData> binarryDataList = new List<BinaryData>();
             binarryDataList.Add(new BinaryData(ComparisonSideEnum.Left, LoremIpsumOneBase64, comparisonId, _binaryDataRepositoryMock.Object));
-            
+
             //Mocking the return of the binary data to compare
             _binaryDataRepositoryMock.Setup(x => x.RetrieveDBinaryDataByComparisonId(comparisonId)).ReturnsAsync(binarryDataList);
 
@@ -211,7 +211,7 @@ namespace DiffProject.Tests.UnitTests
             Assert.False(result.SidesEqual);
             Assert.True(result.SameSize);
             Assert.Equal(expectedDifferences, result.Differences);
-            
+
         }
 
     }

@@ -1,8 +1,6 @@
 ﻿using DiffProject.Application.Commands;
-using DiffProject.Application.Enums;
 using DiffProject.Application.Responses;
 using DiffProject.Domain.AggregateModels.ComparisonAggregate;
-using DiffProject.Domain.AggregateModels.ComparisonAggregate.Enums;
 using DiffProject.Domain.AggregateModels.ComparisonAggregate.RepositoryInterfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;

@@ -5,7 +5,7 @@ namespace DiffProject.Application.Enums
     /// </summary>
     public enum SideEnum
     {
-        Left = 0,
-        Right = 1
+        left = 0,
+        right = 1
     }
 }

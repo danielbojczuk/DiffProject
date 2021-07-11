@@ -66,7 +66,7 @@ namespace DiffProject.Tests.UnitTests
         {
             //Data to be used in the test
             Guid comparisonId = Guid.NewGuid();
-            SideEnum comparisonSide = SideEnum.Right;
+            SideEnum comparisonSide = SideEnum.right;
 
             //Mocking the repository to return null for every query in order to create a valid entity for the test
             _binaryDataRepositoryMock.Setup(x => x.RetrieveDBinaryDataByComparisonIdAndSide(It.IsAny<Guid>(), It.IsAny<ComparisonSideEnum>())).Returns(Task.FromResult<BinaryData>(null));
@@ -90,7 +90,7 @@ namespace DiffProject.Tests.UnitTests
         {
             //Data to be used in the test
             Guid comparisonId = Guid.NewGuid();
-            SideEnum comparisonSide = SideEnum.Right;
+            SideEnum comparisonSide = SideEnum.right;
 
             //Mocking the repository to return null for every query in order to create a valid entity for the test
             _binaryDataRepositoryMock.Setup(x => x.RetrieveDBinaryDataByComparisonIdAndSide(It.IsAny<Guid>(), It.IsAny<ComparisonSideEnum>())).Returns(Task.FromResult<BinaryData>(null));
@@ -114,7 +114,7 @@ namespace DiffProject.Tests.UnitTests
         {
             //Data to be used in the test
             Guid comparisonId = Guid.NewGuid();
-            SideEnum comparisonSide = SideEnum.Right;
+            SideEnum comparisonSide = SideEnum.right;
             string base64String = "NotABase64";
 
 

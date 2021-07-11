@@ -1,5 +1,4 @@
-﻿using DiffProject.Application.Enums;
-using System;
+﻿using System;
 
 namespace DiffProject.Application.Commands
 {

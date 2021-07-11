@@ -1,10 +1,8 @@
 ﻿using DiffProject.Domain.AggregateModels.ComparisonAggregate.Enums;
-using DiffProject.Domain.AggregateModels.ComparisonAggregate.RepositoryInterfaces;
 using DiffProject.Domain.AggregateModels.ComparisonAggregate.Validators;
 using DiffProject.Domain.AggregateModels.SeedWork;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace DiffProject.Domain.AggregateModels.ComparisonAggregate
 {
@@ -77,7 +75,7 @@ namespace DiffProject.Domain.AggregateModels.ComparisonAggregate
         public void Compare()
         {
             Validate(this, new ComparisonResultValidator(true));
-            if(ValidationResult.IsValid == true)
+            if (ValidationResult.IsValid == true)
             {
                 byte[] leftSide = Convert.FromBase64String(BinaryDataToCompare.Find(x => x.ComparisonSide == ComparisonSideEnum.Left).Base64BinaryData);
                 byte[] rightSide = Convert.FromBase64String(BinaryDataToCompare.Find(x => x.ComparisonSide == ComparisonSideEnum.Right).Base64BinaryData);
@@ -94,13 +92,14 @@ namespace DiffProject.Domain.AggregateModels.ComparisonAggregate
                         {
                             offset = i;
                             sequenceEqual = false;
-                        } else if (leftSide[i] == rightSide[i] && sequenceEqual == false)
+                        }
+                        else if (leftSide[i] == rightSide[i] && sequenceEqual == false)
                         {
                             Differences.Add(offset, i - offset);
                             sequenceEqual = true;
                         }
                     }
-                    if(sequenceEqual == false)
+                    if (sequenceEqual == false)
                         Differences.Add(offset, leftSide.Length - offset);
                 }
             }

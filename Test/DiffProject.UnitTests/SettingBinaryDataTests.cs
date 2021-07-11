@@ -66,7 +66,7 @@ namespace DiffProject.Tests.UnitTests
         {
             //Data to be used in the test
             Guid comparisonId = Guid.NewGuid();
-            SideEnum comparisonSide = SideEnum.Left;
+            SideEnum comparisonSide = SideEnum.left;
 
 
             //Mocking the repository to return null for every query
@@ -87,7 +87,7 @@ namespace DiffProject.Tests.UnitTests
         {
             //Data to be used in the test
             Guid comparisonId = Guid.NewGuid();
-            SideEnum comparisonSide = SideEnum.Right;
+            SideEnum comparisonSide = SideEnum.right;
 
             //Mocking the repository to return null for every query to create a vlid entity for the test
             _binaryDataRepositoryMock.Setup(x => x.RetrieveDBinaryDataByComparisonIdAndSide(It.IsAny<Guid>(), It.IsAny<ComparisonSideEnum>())).Returns(Task.FromResult<BinaryData>(null));
@@ -114,7 +114,7 @@ namespace DiffProject.Tests.UnitTests
         {
             //Data to be used in the test
             Guid comparisonId = Guid.NewGuid();
-            SideEnum comparisonSide = SideEnum.Left;
+            SideEnum comparisonSide = SideEnum.left;
 
             //Mocking the repository to return null for every query to create a vlid entity for the test
             _binaryDataRepositoryMock.Setup(x => x.RetrieveDBinaryDataByComparisonIdAndSide(It.IsAny<Guid>(), It.IsAny<ComparisonSideEnum>())).Returns(Task.FromResult<BinaryData>(null));
@@ -143,7 +143,7 @@ namespace DiffProject.Tests.UnitTests
             //Mocking the repository to return a new entity if the Add method was called (It should not be).
             _binaryDataRepositoryMock.Setup(x => x.Add(It.IsAny<BinaryData>())).ReturnsAsync(new BinaryData(ComparisonSideEnum.Left, LoremIpsumOneBase64, Guid.NewGuid(), _binaryDataRepositoryMock.Object));
 
-            SetBinaryDataResponse newBinaryData = await ExecuteCommand(Guid.NewGuid(), SideEnum.Left, "NotABase64");
+            SetBinaryDataResponse newBinaryData = await ExecuteCommand(Guid.NewGuid(), SideEnum.left, "NotABase64");
 
             Assert.Null(newBinaryData);
         }
