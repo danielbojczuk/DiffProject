@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using DiffProject.Application.CommandHandlers.Notifications;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace DiffProject.Application.CommandHandlers
 {
@@ -7,8 +9,13 @@ namespace DiffProject.Application.CommandHandlers
     ///</summary>
     public abstract class AbstractCommandHandler<T, K>
     {
+        public INotificationContext NotificationContext { get; private set; }
 
-        public abstract Task<T> ExecuteAsync(K command);
+        public AbstractCommandHandler(INotificationContext notificationContext)
+        {
+            NotificationContext = notificationContext;
+        }
+        public abstract Task<K> Handle(T command, CancellationToken cancellationToken);
 
     }
 }

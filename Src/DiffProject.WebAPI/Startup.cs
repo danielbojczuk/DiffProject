@@ -1,9 +1,16 @@
+using DiffProject.Application.CommandHandlers.Notifications;
+using DiffProject.WebAPI.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using MediatR;
+using System;
+using DiffProject.Domain.AggregateModels.ComparisonAggregate.RepositoryInterfaces;
+using DiffProject.Infrastructure.DataPersistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace DiffProject.WebAPI
 {
@@ -25,6 +32,14 @@ namespace DiffProject.WebAPI
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DiffProject.WebAPI", Version = "v1" });
             });
+
+            services.AddScoped<NotificationsFilter>();
+            services.AddScoped<INotificationContext,NotificationContext>();
+            services.AddTransient<IBinaryDataRepository, BinaryDataRepository>();
+            services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddDbContext<DiffDbContext>(options => options.UseInMemoryDatabase(databaseName: "DiffDbDatabase"));
+            
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

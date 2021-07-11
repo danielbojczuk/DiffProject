@@ -1,4 +1,5 @@
 using DiffProject.Application.CommandHandlers;
+using DiffProject.Application.CommandHandlers.Notifications;
 using DiffProject.Application.Commands;
 using DiffProject.Application.Enums;
 using DiffProject.Application.Responses;
@@ -8,6 +9,7 @@ using DiffProject.Domain.AggregateModels.ComparisonAggregate.RepositoryInterface
 using Moq;
 using System;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -37,10 +39,16 @@ namespace DiffProject.Tests.UnitTests
         /// </summary>
         Mock<IBinaryDataRepository> _binaryDataRepositoryMock;
 
+        /// <summary>
+        /// Notification context required for the CommandHandler
+        /// </summary>
+        NotificationContext _notificationContext;
+
         public UpdatingBinaryDataTests()
         {
             _LoremIpsumOnePath = Path.GetFullPath(@"..\..\..\..\Resources\LoremIpsum1.txt");
             _binaryDataRepositoryMock = new Mock<IBinaryDataRepository>();
+            _notificationContext = new NotificationContext();
         }
 
         /// <summary>
@@ -52,13 +60,13 @@ namespace DiffProject.Tests.UnitTests
         /// <returns></returns>
         private async Task<UpdateBinaryDataResponse> ExecuteCommand(Guid comparisonId, SideEnum comparisonSide, string base64EncodedString)
         {
-            UpdateBinaryDataCommandHandler commandHandler = new UpdateBinaryDataCommandHandler(_binaryDataRepositoryMock.Object);
-            return await commandHandler.ExecuteAsync(new UpdateBinaryDataCommand
+            UpdateBinaryDataCommandHandler commandHandler = new UpdateBinaryDataCommandHandler(_binaryDataRepositoryMock.Object, _notificationContext);
+            return await commandHandler.Handle(new UpdateBinaryDataCommand
             {
                 CurrentComparisonID = comparisonId,
                 CurrentComparisonSide = comparisonSide,
                 NewBase64BinaryData = base64EncodedString
-            });
+            }, new CancellationToken());
         }
 
         [Fact]

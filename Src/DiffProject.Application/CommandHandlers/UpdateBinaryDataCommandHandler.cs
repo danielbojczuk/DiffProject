@@ -1,9 +1,12 @@
-﻿using DiffProject.Application.Commands;
+﻿using DiffProject.Application.CommandHandlers.Notifications;
+using DiffProject.Application.Commands;
 using DiffProject.Application.Enums;
 using DiffProject.Application.Responses;
 using DiffProject.Domain.AggregateModels.ComparisonAggregate;
 using DiffProject.Domain.AggregateModels.ComparisonAggregate.Enums;
 using DiffProject.Domain.AggregateModels.ComparisonAggregate.RepositoryInterfaces;
+using MediatR;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DiffProject.Application.CommandHandlers
@@ -11,11 +14,11 @@ namespace DiffProject.Application.CommandHandlers
     ///<summary>
     ///Handles the Command Set Data to perform an inclusion of a binary data to compare.
     ///</summary>
-    public class UpdateBinaryDataCommandHandler : AbstractCommandHandler<UpdateBinaryDataResponse, UpdateBinaryDataCommand>
+    public class UpdateBinaryDataCommandHandler : AbstractCommandHandler<UpdateBinaryDataCommand, UpdateBinaryDataResponse>, IRequestHandler<UpdateBinaryDataCommand, UpdateBinaryDataResponse>
     {
         public IBinaryDataRepository BinaryDataRepository { get; private set; }
 
-        public UpdateBinaryDataCommandHandler(IBinaryDataRepository binaryDataRepository)
+        public UpdateBinaryDataCommandHandler(IBinaryDataRepository binaryDataRepository, INotificationContext notificationContext) : base(notificationContext)
         {
             BinaryDataRepository = binaryDataRepository;
         }
@@ -24,16 +27,21 @@ namespace DiffProject.Application.CommandHandlers
         ///Execute Async the 'Update Data' Command
         ///</summary>
         ///<param name="command">Command to be handled with the Comparison Id and the Bas64 Binary Data</param>
-        public override async Task<UpdateBinaryDataResponse> ExecuteAsync(UpdateBinaryDataCommand command)
+        public override async Task<UpdateBinaryDataResponse> Handle(UpdateBinaryDataCommand command, CancellationToken cancellationToken)
         {
             BinaryData binaryData = await BinaryDataRepository.RetrieveDBinaryDataByComparisonIdAndSide(command.CurrentComparisonID, ConvertCommandEnumToEntityEnum(command.CurrentComparisonSide));
-
             if (binaryData == null)
+            {
+                NotificationContext.AddNotification("Comparison Id not found");
                 return null;
+            }
 
             binaryData.UpdateBase64BinaryFile(command.NewBase64BinaryData);
             if (!binaryData.ValidationResult.IsValid)
+            {
+                NotificationContext.AddNotifications(binaryData.ValidationResult);
                 return null;
+            }
 
             BinaryData updatedBinaryData = await BinaryDataRepository.Update(binaryData);
 

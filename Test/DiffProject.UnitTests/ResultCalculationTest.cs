@@ -1,4 +1,5 @@
 using DiffProject.Application.CommandHandlers;
+using DiffProject.Application.CommandHandlers.Notifications;
 using DiffProject.Application.Commands;
 using DiffProject.Application.Responses;
 using DiffProject.Domain.AggregateModels.ComparisonAggregate;
@@ -8,6 +9,7 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -70,12 +72,17 @@ namespace DiffProject.Tests.UnitTests
         /// </summary>
         Mock<IBinaryDataRepository> _binaryDataRepositoryMock;
 
+        /// <summary>
+        /// Notification context required for the CommandHandler
+        /// </summary>
+        NotificationContext _notificationContext;
         public ResultCalculationTest()
         {
             _LoremIpsumOnePath = Path.GetFullPath(@"..\..\..\..\Resources\LoremIpsum1.txt");
             _LoremIpsumTwoPath = Path.GetFullPath(@"..\..\..\..\Resources\LoremIpsum2.txt");
             _LoremIpsumDifferentSizePath = Path.GetFullPath(@"..\..\..\..\Resources\LoremIpsumDifferentSize.txt");
             _binaryDataRepositoryMock = new Mock<IBinaryDataRepository>();
+            _notificationContext = new NotificationContext();
         }
 
         /// <summary>
@@ -87,11 +94,11 @@ namespace DiffProject.Tests.UnitTests
         /// <returns></returns>
         private async Task<CalculationResponse> ExecuteCommand(Guid comparisonId)
         {
-            CalculationCommandHandler commandHandler = new CalculationCommandHandler(_binaryDataRepositoryMock.Object);
-            return await commandHandler.ExecuteAsync(new CalculationCommand
+            CalculationCommandHandler commandHandler = new CalculationCommandHandler(_binaryDataRepositoryMock.Object, _notificationContext);
+            return await commandHandler.Handle(new CalculationCommand
             {
                 ComparisonID = comparisonId,
-            });
+            }, new CancellationToken());
         }
 
 

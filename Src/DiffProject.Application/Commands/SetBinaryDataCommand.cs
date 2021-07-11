@@ -1,4 +1,6 @@
 ﻿using DiffProject.Application.Enums;
+using DiffProject.Application.Responses;
+using MediatR;
 using System;
 
 namespace DiffProject.Application.Commands
@@ -6,7 +8,7 @@ namespace DiffProject.Application.Commands
     ///<summary>
     ///The 'Set Data' Command to be handled by the application.
     ///</summary>
-    public class SetBinaryDataCommand
+    public class SetBinaryDataCommand: IRequest<SetBinaryDataResponse>
     {
         ///<summary>
         ///Id of the Comparison: shlould be the same for the left and right data.

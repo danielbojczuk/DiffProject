@@ -8,7 +8,7 @@ namespace DiffProject.Application.Responses
         /// <summary>
         /// Side de data should be on comparison
         /// </summary>
-        public SideEnum ComparisonSide { get; set; }
+        public string ComparisonSide { get; set; }
 
         /// <summary>
         /// Base64 encoded binary Data

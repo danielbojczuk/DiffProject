@@ -28,6 +28,11 @@ namespace DiffProject.Domain.AggregateModels.ComparisonAggregate
         /// </summary>
         public Guid ComparisonId { get; private set; }
 
+        
+        private BinaryData() : base()
+        {
+
+        }
 
         public BinaryData(ComparisonSideEnum comparisonSide, string base64BinaryData, Guid comparisonId, IBinaryDataRepository binaryDataRepository) : base()
         {
