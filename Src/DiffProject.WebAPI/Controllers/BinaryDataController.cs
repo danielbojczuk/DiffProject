@@ -45,7 +45,7 @@ namespace DiffProject.WebAPI.Controllers
         [HttpGet]
         public async Task<ActionResult> Get(string comparisonId, string comparisonSide)
         {
-            GetBinaryDataResponse response = await _mediator.Send(new GetBinaryDataCommand { ComparisonID = Guid.Parse(comparisonId), ComparisonSide = Enum.Parse<SideEnum>(comparisonSide)});
+            GetBinaryDataResponse response = await _mediator.Send(new GetBinaryDataCommand { ComparisonID = Guid.Parse(comparisonId), ComparisonSide = Enum.Parse<SideEnum>(comparisonSide) });
             if (response == null)
                 return NotFound();
             else

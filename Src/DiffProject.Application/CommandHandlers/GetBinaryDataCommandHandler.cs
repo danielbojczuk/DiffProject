@@ -6,7 +6,6 @@ using DiffProject.Domain.AggregateModels.ComparisonAggregate;
 using DiffProject.Domain.AggregateModels.ComparisonAggregate.Enums;
 using DiffProject.Domain.AggregateModels.ComparisonAggregate.RepositoryInterfaces;
 using MediatR;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -59,6 +58,6 @@ namespace DiffProject.Application.CommandHandlers
             int integerEnumValue = (int)commandEnum;
             return (SideEnum)integerEnumValue;
         }
-    
+
     }
 }
