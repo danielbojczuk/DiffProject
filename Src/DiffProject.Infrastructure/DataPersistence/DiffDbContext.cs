@@ -11,7 +11,7 @@ namespace DiffProject.Infrastructure.DataPersistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            /*modelBuilder.Entity<BinaryData>(
+            modelBuilder.Entity<BinaryData>(
                 b =>
                 {
                     b.HasKey(f => f.Id);
@@ -31,7 +31,7 @@ namespace DiffProject.Infrastructure.DataPersistence
                 {
                     d.HasKey(f => f.Id);
                     d.Ignore(f => f.ValidationResult);
-                });*/
+                });
         }
     }
 }
