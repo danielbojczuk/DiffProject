@@ -1,0 +1,7 @@
+{
+  "BinaryData": {
+    "BinaryDataOne": "..\\..\\..\\..\\Resources\\LoremIpsum1.txt",
+    "BinaryDataTwo": "..\\..\\..\\..\\Resources\\LoremIpsum2.txt",
+    "BinaryDataDifferentSize": "..\\..\\..\\..\\Resources\\LoremIpsumDifferentSize.txt"
+    }
+}

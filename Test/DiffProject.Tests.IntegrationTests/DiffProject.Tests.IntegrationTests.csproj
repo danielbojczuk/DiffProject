@@ -24,4 +24,10 @@
     <ProjectReference Include="..\..\Src\DiffProject.WebAPI\DiffProject.WebAPI.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="testSettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

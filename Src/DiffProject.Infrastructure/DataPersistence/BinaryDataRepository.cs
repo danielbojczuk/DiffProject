@@ -12,14 +12,17 @@ namespace DiffProject.Infrastructure.DataPersistence
     public class BinaryDataRepository : IBinaryDataRepository
     {
         public readonly DiffDbContext _diffDbContext;
+
         public BinaryDataRepository(DiffDbContext dbContext)
         {
             _diffDbContext = dbContext;
         }
+
         public async Task<BinaryData> Add(BinaryData binaryData)
         {
             if (!binaryData.ValidationResult.IsValid)
                 throw new InvalidOperationException("Invalid entity can not be persisted");
+
             await _diffDbContext.BinaryData.AddAsync(binaryData);
             await _diffDbContext.SaveChangesAsync();
             return binaryData;
@@ -27,9 +30,7 @@ namespace DiffProject.Infrastructure.DataPersistence
 
         public async Task<List<BinaryData>> RetrieveDBinaryDataByComparisonId(Guid comparisonid)
         {
-            return await (from b in _diffDbContext.BinaryData
-                         where b.ComparisonId == comparisonid
-                         select b).ToListAsync();
+            return await _diffDbContext.BinaryData.Where(b => b.ComparisonId == comparisonid).ToListAsync();
         }
 
         public async Task<BinaryData> RetrieveDBinaryDataByComparisonIdAndSide(Guid comparisonid, ComparisonSideEnum side)

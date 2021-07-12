@@ -16,76 +16,9 @@ using Xunit;
 namespace DiffProject.Tests.UnitTests
 {
 
-    public class ResultCalculationTest
+    public class ResultCalculationTest: AbstractTestClass
     {
-        /// <summary>
-        /// Field with the LoeremImpsum file path to be used in the tests
-        /// </summary>
-        private string _LoremIpsumOnePath;
-
-        /// <summary>
-        /// Field with the LoeremImpsum file path to be used in the tests
-        /// </summary>
-        private string _LoremIpsumTwoPath;
-
-        /// <summary>
-        /// Field with the LoeremImpsum file path to be used in the tests
-        /// </summary>
-        private string _LoremIpsumDifferentSizePath;
-
-        /// <summary>
-        /// Property to return the base64 encoded string to be used in the tests
-        /// </summary>
-        private string LoremIpsumOneBase64
-        {
-            get
-            {
-                return Convert.ToBase64String(File.ReadAllBytes(_LoremIpsumOnePath));
-            }
-        }
-
-        /// <summary>
-        /// Property to return the base64 encoded string to be used in the tests
-        /// </summary>
-        private string LoremIpsumTwoBase64
-        {
-            get
-            {
-                return Convert.ToBase64String(File.ReadAllBytes(_LoremIpsumTwoPath));
-            }
-        }
-
-
-        /// <summary>
-        /// Property to return the base64 encoded string to be used in the tests
-        /// </summary>
-        private string LoremIpsumDifferentSizeBase64
-        {
-            get
-            {
-                return Convert.ToBase64String(File.ReadAllBytes(_LoremIpsumDifferentSizePath));
-            }
-        }
-
-        /// <summary>
-        /// Repository mocking to be used in the tests
-        /// </summary>
-        Mock<IBinaryDataRepository> _binaryDataRepositoryMock;
-        Mock<IComparisonResultRepository> _comparisonResultRepository;
-
-        /// <summary>
-        /// Notification context required for the CommandHandler
-        /// </summary>
-        NotificationContext _notificationContext;
-        public ResultCalculationTest()
-        {
-            _LoremIpsumOnePath = Path.GetFullPath(@"..\..\..\..\Resources\LoremIpsum1.txt");
-            _LoremIpsumTwoPath = Path.GetFullPath(@"..\..\..\..\Resources\LoremIpsum2.txt");
-            _LoremIpsumDifferentSizePath = Path.GetFullPath(@"..\..\..\..\Resources\LoremIpsumDifferentSize.txt");
-            _binaryDataRepositoryMock = new Mock<IBinaryDataRepository>();
-            _comparisonResultRepository = new Mock<IComparisonResultRepository>();
-            _notificationContext = new NotificationContext();
-        }
+      
 
         /// <summary>
         /// Method to execute the command to set the new BinaryData
@@ -94,10 +27,10 @@ namespace DiffProject.Tests.UnitTests
         /// <param name="comparisonSide">Comparison's side</param>
         /// <param name="base64EncodedString"> Binary data Base64 encoded string to be compared</param>
         /// <returns></returns>
-        private async Task<CalculationResponse> ExecuteCommand(Guid comparisonId)
+        private async Task<ComparisonResultResponse> ExecuteCommand(Guid comparisonId)
         {
             CalculationCommandHandler commandHandler = new CalculationCommandHandler(_binaryDataRepositoryMock.Object, _notificationContext, _comparisonResultRepository.Object);
-            return await commandHandler.Handle(new CalculationCommand
+            return await commandHandler.Handle(new ComparisonResultCommand
             {
                 ComparisonID = comparisonId,
             }, new CancellationToken());
@@ -140,7 +73,7 @@ namespace DiffProject.Tests.UnitTests
         }
 
         [Fact]
-        public async void TryToCompareWithThreeSides()
+        public async void TryToCompareWithThreeBinaryData()
         {
             //Setting values to be uded in the testss
             Guid comparisonId = Guid.NewGuid();
@@ -171,7 +104,7 @@ namespace DiffProject.Tests.UnitTests
             _binaryDataRepositoryMock.Setup(x => x.RetrieveDBinaryDataByComparisonId(comparisonId)).ReturnsAsync(binarryDataList);
 
             //Executing commnad
-            CalculationResponse result = await ExecuteCommand(comparisonId);
+            ComparisonResultResponse result = await ExecuteCommand(comparisonId);
 
             Assert.True(result.SidesEqual);
             Assert.True(result.SameSize);
@@ -191,7 +124,7 @@ namespace DiffProject.Tests.UnitTests
             _binaryDataRepositoryMock.Setup(x => x.RetrieveDBinaryDataByComparisonId(comparisonId)).ReturnsAsync(binarryDataList);
 
             //Executing commnad
-            CalculationResponse result = await ExecuteCommand(comparisonId);
+            ComparisonResultResponse result = await ExecuteCommand(comparisonId);
 
             Assert.False(result.SidesEqual);
             Assert.False(result.SameSize);
@@ -215,7 +148,7 @@ namespace DiffProject.Tests.UnitTests
             _binaryDataRepositoryMock.Setup(x => x.RetrieveDBinaryDataByComparisonId(comparisonId)).ReturnsAsync(binarryDataList);
 
             //Executing commnad
-            CalculationResponse result = await ExecuteCommand(comparisonId);
+            ComparisonResultResponse result = await ExecuteCommand(comparisonId);
 
             Assert.False(result.SidesEqual);
             Assert.True(result.SameSize);

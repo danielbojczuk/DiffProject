@@ -48,7 +48,7 @@ namespace DiffProject.Application.CommandHandlers
 
             BinaryData updatedBinaryData = await BinaryDataRepository.Update(binaryData);
 
-            StartComparingSides(updatedBinaryData.ComparisonId, cancellationToken);
+            StartComparison(updatedBinaryData.ComparisonId, cancellationToken);
 
             return new UpdateBinaryDataResponse
             {
@@ -59,10 +59,10 @@ namespace DiffProject.Application.CommandHandlers
             };
         }
 
-        private void StartComparingSides(Guid comparisonId, CancellationToken cancellationToken)
+        private void StartComparison(Guid comparisonId, CancellationToken cancellationToken)
         {
             CalculationCommandHandler calculationCommandHandler = new CalculationCommandHandler(BinaryDataRepository, new NotificationContext(), ComparisonResultRepository);
-            calculationCommandHandler.Handle(new CalculationCommand { ComparisonID = comparisonId }, cancellationToken).GetAwaiter();
+            calculationCommandHandler.Handle(new ComparisonResultCommand { ComparisonID = comparisonId }, cancellationToken).GetAwaiter();
         }
 
         /// <summary>

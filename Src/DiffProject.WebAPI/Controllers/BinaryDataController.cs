@@ -18,6 +18,7 @@ namespace DiffProject.WebAPI.Controllers
     {
 
         private readonly ILogger<BinaryDataController> _logger;
+
         private readonly IMediator _mediator;
 
         public BinaryDataController(ILogger<BinaryDataController> logger, IMediator mediator)

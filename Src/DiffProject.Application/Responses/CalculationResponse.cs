@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace DiffProject.Application.Responses
 {
-    public class CalculationResponse
+    public class ComparisonResultResponse
     {
         /// <summary>
         /// It will be true only if both sides are totaly equal. It will be null if it has not been calculated yet.

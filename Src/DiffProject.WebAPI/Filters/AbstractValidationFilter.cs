@@ -1,5 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Net.Http.Headers;
+using System.Collections.Generic;
 using System;
+using System.Net;
 
 namespace DiffProject.WebAPI.Filters
 {
@@ -26,6 +30,15 @@ namespace DiffProject.WebAPI.Filters
         protected bool IsSideValid(string side)
         {
             return (side == "left" || side == "right");
+        }
+
+        protected ObjectResult CreateBadRequestResult(List<string> validationResult)
+        {
+            ObjectResult result = new ObjectResult(validationResult);
+            result.StatusCode = (int)HttpStatusCode.BadRequest;
+            result.ContentTypes.Add(MediaTypeHeaderValue.Parse("application/json;"));
+            return result;
+            
         }
     }
 }

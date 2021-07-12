@@ -11,7 +11,7 @@ namespace DiffProject.Domain.AggregateModels.ComparisonAggregate
     ///</summary>
     public class BinaryData : Entity
     {
-        private IBinaryDataRepository _binaryDataRepository;
+        private readonly IBinaryDataRepository _binaryDataRepository;
 
         /// <summary>
         /// Side de data should be on comparison

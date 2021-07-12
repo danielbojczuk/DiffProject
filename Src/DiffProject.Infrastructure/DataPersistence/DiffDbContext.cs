@@ -24,18 +24,18 @@ namespace DiffProject.Infrastructure.DataPersistence
                 });
 
             modelBuilder.Entity<ComparisonResult>(
-                b =>
+                c =>
                 {
-                    b.HasKey(f => f.Id);
-                    b.Ignore(f => f.ValidationResult);
-                    b.HasMany(d => d.Differences).WithOne(r => r.ComparisonResult);
+                    c.HasKey(f => f.Id);
+                    c.Ignore(f => f.ValidationResult);
+                    c.HasMany(d => d.Differences).WithOne(r => r.ComparisonResult);
                 });
 
             modelBuilder.Entity<Difference>(
-                b =>
+                d =>
                 {
-                    b.HasKey(f => f.Id);
-                    b.Ignore(f => f.ValidationResult);
+                    d.HasKey(f => f.Id);
+                    d.Ignore(f => f.ValidationResult);
                 });
         }
     }

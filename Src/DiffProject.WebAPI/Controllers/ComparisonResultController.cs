@@ -18,6 +18,7 @@ namespace DiffProject.WebAPI.Controllers
     {
 
         private readonly ILogger<BinaryDataController> _logger;
+
         private readonly IMediator _mediator;
 
         public ComparisonResultController(ILogger<BinaryDataController> logger, IMediator mediator)
@@ -29,7 +30,7 @@ namespace DiffProject.WebAPI.Controllers
         [HttpGet]
         public async Task<ActionResult> Get(string comparisonId)
         {
-            CalculationResponse response = await _mediator.Send(new GetComparisonResultCommand { ComparisonID = Guid.Parse(comparisonId)});
+            ComparisonResultResponse response = await _mediator.Send(new GetComparisonResultCommand { ComparisonID = Guid.Parse(comparisonId)});
             if (response == null)
                 return NotFound();
             else

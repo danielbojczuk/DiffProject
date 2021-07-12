@@ -25,13 +25,7 @@ namespace DiffProject.WebAPI.Filters
                 validationResult.Add("Supplied SIDE is invalid");
 
             if (validationResult.Count > 0)
-            {
-                ObjectResult result = new ObjectResult(validationResult);
-                result.StatusCode = (int)HttpStatusCode.BadRequest;
-                result.ContentTypes.Add(MediaTypeHeaderValue.Parse("application/json;"));
-                context.Result = result;
-
-            }
+                context.Result = CreateBadRequestResult(validationResult);
         }
     }
 }

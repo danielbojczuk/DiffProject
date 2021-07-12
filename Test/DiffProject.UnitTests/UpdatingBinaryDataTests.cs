@@ -16,43 +16,8 @@ using Xunit;
 namespace DiffProject.Tests.UnitTests
 {
 
-    public class UpdatingBinaryDataTests
+    public class UpdatingBinaryDataTests:AbstractTestClass
     {
-        /// <summary>
-        /// Field with the LoeremImpsum file path to be used in the tests
-        /// </summary>
-        private string _LoremIpsumOnePath;
-
-        /// <summary>
-        /// Property to return the base64 encoded string to be used in the tests
-        /// </summary>
-        private string LoremIpsumOneBase64
-        {
-            get
-            {
-                return Convert.ToBase64String(File.ReadAllBytes(_LoremIpsumOnePath));
-            }
-        }
-
-        /// <summary>
-        /// Repository mocking to be used in the tests
-        /// </summary>
-        Mock<IBinaryDataRepository> _binaryDataRepositoryMock;
-        Mock<IComparisonResultRepository> _comparisonResultRepository;
-
-        /// <summary>
-        /// Notification context required for the CommandHandler
-        /// </summary>
-        NotificationContext _notificationContext;
-
-        public UpdatingBinaryDataTests()
-        {
-            _LoremIpsumOnePath = Path.GetFullPath(@"..\..\..\..\Resources\LoremIpsum1.txt");
-            _binaryDataRepositoryMock = new Mock<IBinaryDataRepository>();
-            _comparisonResultRepository = new Mock<IComparisonResultRepository>();
-            _notificationContext = new NotificationContext();
-        }
-
         /// <summary>
         /// Method to execute the command to set the new BinaryData
         /// </summary>
