@@ -3,7 +3,6 @@ using DiffProject.Application.Commands;
 using DiffProject.Application.Responses;
 using DiffProject.Domain.AggregateModels.ComparisonAggregate;
 using DiffProject.Domain.AggregateModels.ComparisonAggregate.RepositoryInterfaces;
-using MediatR;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,12 +12,14 @@ namespace DiffProject.Application.CommandHandlers
     ///<summary>
     ///Handles the Command Set Data to perform an inclusion of a binary data to compare.
     ///</summary>
-    public class CalculationCommandHandler : AbstractCommandHandler<CalculationCommand, CalculationResponse>, IRequestHandler<CalculationCommand, CalculationResponse>
+    public class CalculationCommandHandler : AbstractCommandHandler<CalculationCommand, CalculationResponse>
     {
+        public IComparisonResultRepository ComparisonResultRepository { get; private set; }
         public IBinaryDataRepository BinaryDataRepository { get; private set; }
 
-        public CalculationCommandHandler(IBinaryDataRepository binaryDataRepository, INotificationContext notificationContext): base(notificationContext)
+        public CalculationCommandHandler(IBinaryDataRepository binaryDataRepository, INotificationContext notificationContext, IComparisonResultRepository comparisonDataRepository) : base(notificationContext)
         {
+            ComparisonResultRepository = comparisonDataRepository;
             BinaryDataRepository = binaryDataRepository;
         }
 
@@ -51,10 +52,15 @@ namespace DiffProject.Application.CommandHandlers
                 return null;
             }
 
+            await ComparisonResultRepository.Add(comparisonResult);
+
+            Dictionary<long, long> diferences = new Dictionary<long, long>();
+            comparisonResult.Differences.ForEach(x => diferences.Add(x.Position, x.Size));
+
             return new CalculationResponse
             {
                 ComparisonId = comparisonResult.ComparisonId,
-                Differences = comparisonResult.Differences,
+                Differences = diferences,
                 SameSize = comparisonResult.SameSize,
                 SidesEqual = comparisonResult.SidesEqual
             };

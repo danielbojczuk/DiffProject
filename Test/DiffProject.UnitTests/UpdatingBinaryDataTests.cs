@@ -38,6 +38,7 @@ namespace DiffProject.Tests.UnitTests
         /// Repository mocking to be used in the tests
         /// </summary>
         Mock<IBinaryDataRepository> _binaryDataRepositoryMock;
+        Mock<IComparisonResultRepository> _comparisonResultRepository;
 
         /// <summary>
         /// Notification context required for the CommandHandler
@@ -48,6 +49,7 @@ namespace DiffProject.Tests.UnitTests
         {
             _LoremIpsumOnePath = Path.GetFullPath(@"..\..\..\..\Resources\LoremIpsum1.txt");
             _binaryDataRepositoryMock = new Mock<IBinaryDataRepository>();
+            _comparisonResultRepository = new Mock<IComparisonResultRepository>();
             _notificationContext = new NotificationContext();
         }
 
@@ -60,7 +62,7 @@ namespace DiffProject.Tests.UnitTests
         /// <returns></returns>
         private async Task<UpdateBinaryDataResponse> ExecuteCommand(Guid comparisonId, SideEnum comparisonSide, string base64EncodedString)
         {
-            UpdateBinaryDataCommandHandler commandHandler = new UpdateBinaryDataCommandHandler(_binaryDataRepositoryMock.Object, _notificationContext);
+            UpdateBinaryDataCommandHandler commandHandler = new UpdateBinaryDataCommandHandler(_binaryDataRepositoryMock.Object, _notificationContext, _comparisonResultRepository.Object);
             return await commandHandler.Handle(new UpdateBinaryDataCommand
             {
                 CurrentComparisonID = comparisonId,

@@ -6,6 +6,7 @@ using DiffProject.Domain.AggregateModels.ComparisonAggregate;
 using DiffProject.Domain.AggregateModels.ComparisonAggregate.Enums;
 using DiffProject.Domain.AggregateModels.ComparisonAggregate.RepositoryInterfaces;
 using MediatR;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,14 +18,16 @@ namespace DiffProject.Application.CommandHandlers
     public class SetBinaryDataCommandHandler : AbstractCommandHandler<SetBinaryDataCommand,SetBinaryDataResponse>, IRequestHandler<SetBinaryDataCommand, SetBinaryDataResponse>
     {
         public IBinaryDataRepository BinaryDataRepository { get; private set; }
+        public IComparisonResultRepository ComparisonResultRepository { get; private set; }
 
-        public SetBinaryDataCommandHandler(IBinaryDataRepository binaryDataRepository, INotificationContext notificationContext): base(notificationContext)
+        public SetBinaryDataCommandHandler(IBinaryDataRepository binaryDataRepository, INotificationContext notificationContext, IComparisonResultRepository comparisonResultRepository): base(notificationContext)
         {
             BinaryDataRepository = binaryDataRepository;
+            ComparisonResultRepository = comparisonResultRepository;
         }
 
         ///<summary>
-        ///Execute Async the 'Set Data' Command
+        ///Creates a new Binary Data and sart the comparing.
         ///</summary>
         ///<param name="command">Command to be handled with the Comparison Id and the Bas64 Binary Data</param>
         public override async Task<SetBinaryDataResponse> Handle(SetBinaryDataCommand command, CancellationToken cancellationToken)
@@ -38,8 +41,17 @@ namespace DiffProject.Application.CommandHandlers
 
             BinaryData newBinaryData = await BinaryDataRepository.Add(binaryData);
 
+            StartComparingSides(newBinaryData.ComparisonId, cancellationToken);
+
             return new SetBinaryDataResponse { Id = newBinaryData.Id, Base64BinaryData = newBinaryData.Base64BinaryData, ComparisonId = newBinaryData.ComparisonId, ComparisonSide = ConvertEntityEnumToCommandEnum(binaryData.ComparisonSide).ToString() };
 
+        }
+
+
+        private void StartComparingSides(Guid comparisonId, CancellationToken cancellationToken)
+        {
+            CalculationCommandHandler calculationCommandHandler = new CalculationCommandHandler(BinaryDataRepository, new NotificationContext(), ComparisonResultRepository);
+            calculationCommandHandler.Handle(new CalculationCommand { ComparisonID = comparisonId }, cancellationToken).GetAwaiter();
         }
 
         /// <summary>

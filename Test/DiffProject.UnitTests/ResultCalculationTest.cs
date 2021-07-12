@@ -71,6 +71,7 @@ namespace DiffProject.Tests.UnitTests
         /// Repository mocking to be used in the tests
         /// </summary>
         Mock<IBinaryDataRepository> _binaryDataRepositoryMock;
+        Mock<IComparisonResultRepository> _comparisonResultRepository;
 
         /// <summary>
         /// Notification context required for the CommandHandler
@@ -82,6 +83,7 @@ namespace DiffProject.Tests.UnitTests
             _LoremIpsumTwoPath = Path.GetFullPath(@"..\..\..\..\Resources\LoremIpsum2.txt");
             _LoremIpsumDifferentSizePath = Path.GetFullPath(@"..\..\..\..\Resources\LoremIpsumDifferentSize.txt");
             _binaryDataRepositoryMock = new Mock<IBinaryDataRepository>();
+            _comparisonResultRepository = new Mock<IComparisonResultRepository>();
             _notificationContext = new NotificationContext();
         }
 
@@ -94,7 +96,7 @@ namespace DiffProject.Tests.UnitTests
         /// <returns></returns>
         private async Task<CalculationResponse> ExecuteCommand(Guid comparisonId)
         {
-            CalculationCommandHandler commandHandler = new CalculationCommandHandler(_binaryDataRepositoryMock.Object, _notificationContext);
+            CalculationCommandHandler commandHandler = new CalculationCommandHandler(_binaryDataRepositoryMock.Object, _notificationContext, _comparisonResultRepository.Object);
             return await commandHandler.Handle(new CalculationCommand
             {
                 ComparisonID = comparisonId,

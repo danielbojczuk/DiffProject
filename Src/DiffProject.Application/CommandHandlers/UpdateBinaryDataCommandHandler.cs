@@ -6,6 +6,7 @@ using DiffProject.Domain.AggregateModels.ComparisonAggregate;
 using DiffProject.Domain.AggregateModels.ComparisonAggregate.Enums;
 using DiffProject.Domain.AggregateModels.ComparisonAggregate.RepositoryInterfaces;
 using MediatR;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,10 +18,12 @@ namespace DiffProject.Application.CommandHandlers
     public class UpdateBinaryDataCommandHandler : AbstractCommandHandler<UpdateBinaryDataCommand, UpdateBinaryDataResponse>, IRequestHandler<UpdateBinaryDataCommand, UpdateBinaryDataResponse>
     {
         public IBinaryDataRepository BinaryDataRepository { get; private set; }
+        public IComparisonResultRepository ComparisonResultRepository { get; private set; }
 
-        public UpdateBinaryDataCommandHandler(IBinaryDataRepository binaryDataRepository, INotificationContext notificationContext) : base(notificationContext)
+        public UpdateBinaryDataCommandHandler(IBinaryDataRepository binaryDataRepository, INotificationContext notificationContext, IComparisonResultRepository comparisonResultRepository) : base(notificationContext)
         {
             BinaryDataRepository = binaryDataRepository;
+            ComparisonResultRepository = comparisonResultRepository;
         }
 
         ///<summary>
@@ -45,6 +48,8 @@ namespace DiffProject.Application.CommandHandlers
 
             BinaryData updatedBinaryData = await BinaryDataRepository.Update(binaryData);
 
+            StartComparingSides(updatedBinaryData.ComparisonId, cancellationToken);
+
             return new UpdateBinaryDataResponse
             {
                 Id = updatedBinaryData.Id,
@@ -53,6 +58,13 @@ namespace DiffProject.Application.CommandHandlers
                 ComparisonSide = ConvertEntityEnumToCommandEnum(updatedBinaryData.ComparisonSide)
             };
         }
+
+        private void StartComparingSides(Guid comparisonId, CancellationToken cancellationToken)
+        {
+            CalculationCommandHandler calculationCommandHandler = new CalculationCommandHandler(BinaryDataRepository, new NotificationContext(), ComparisonResultRepository);
+            calculationCommandHandler.Handle(new CalculationCommand { ComparisonID = comparisonId }, cancellationToken).GetAwaiter();
+        }
+
         /// <summary>
         /// Method to convert the Application Enum to the Domain Enum
         /// </summary>

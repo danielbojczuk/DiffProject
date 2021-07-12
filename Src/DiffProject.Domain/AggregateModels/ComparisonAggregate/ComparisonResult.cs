@@ -33,9 +33,8 @@ namespace DiffProject.Domain.AggregateModels.ComparisonAggregate
         /// <summary>
         /// It will have the differences between the sides if they have the same size.
         /// </summary>
-        /// <typeparam name="long">The fist type parameter is the offset</typeparam>
-        /// <typeparam name="long">The second type parameter is the lenght</typeparam>
-        public Dictionary<long, long> Differences { get; private set; }
+
+        public List<Difference> Differences { get; private set; }
 
         /// <summary>
         /// ComparisonId used in both sides and result.
@@ -47,11 +46,15 @@ namespace DiffProject.Domain.AggregateModels.ComparisonAggregate
         /// </summary>
         public List<BinaryData> BinaryDataToCompare { get; private set; }
 
+        private ComparisonResult()
+        {
+
+        }
 
         public ComparisonResult(Guid comparisonId) : base()
         {
             SameSize = null;
-            Differences = new Dictionary<long, long>();
+            Differences = new List<Difference>();
             BinaryDataToCompare = new List<BinaryData>();
             ComparisonId = comparisonId;
         }
@@ -95,12 +98,12 @@ namespace DiffProject.Domain.AggregateModels.ComparisonAggregate
                         }
                         else if (leftSide[i] == rightSide[i] && sequenceEqual == false)
                         {
-                            Differences.Add(offset, i - offset);
+                            Differences.Add(new Difference(offset, i - offset));
                             sequenceEqual = true;
                         }
                     }
                     if (sequenceEqual == false)
-                        Differences.Add(offset, leftSide.Length - offset);
+                        Differences.Add(new Difference(offset, leftSide.Length - offset));
                 }
             }
         }

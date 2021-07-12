@@ -36,6 +36,7 @@ namespace DiffProject.WebAPI
             services.AddScoped<NotificationsFilter>();
             services.AddScoped<INotificationContext,NotificationContext>();
             services.AddTransient<IBinaryDataRepository, BinaryDataRepository>();
+            services.AddTransient<IComparisonResultRepository, ComparisonResultRepository>();
             services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
             services.AddDbContext<DiffDbContext>(options => options.UseInMemoryDatabase(databaseName: "DiffDbDatabase"));
             
