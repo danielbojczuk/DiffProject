@@ -1,5 +1,4 @@
 using DiffProject.Application.CommandHandlers;
-using DiffProject.Application.CommandHandlers.Notifications;
 using DiffProject.Application.Commands;
 using DiffProject.Application.Enums;
 using DiffProject.Application.Responses;
@@ -16,9 +15,9 @@ using Xunit;
 namespace DiffProject.Tests.UnitTests
 {
 
-    public class SettingBinaryDataTests:AbstractTestClass
+    public class SettingBinaryDataTests : AbstractTestClass
     {
-      
+
         /// <summary>
         /// Method to execute the command to set the new BinaryData
         /// </summary>

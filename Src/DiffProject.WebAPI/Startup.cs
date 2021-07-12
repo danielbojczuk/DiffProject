@@ -1,16 +1,17 @@
 using DiffProject.Application.CommandHandlers.Notifications;
+using DiffProject.Domain.AggregateModels.ComparisonAggregate.RepositoryInterfaces;
+using DiffProject.Infrastructure.DataPersistence;
 using DiffProject.WebAPI.Filters;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using MediatR;
 using System;
-using DiffProject.Domain.AggregateModels.ComparisonAggregate.RepositoryInterfaces;
-using DiffProject.Infrastructure.DataPersistence;
-using Microsoft.EntityFrameworkCore;
 
 namespace DiffProject.WebAPI
 {
@@ -34,12 +35,12 @@ namespace DiffProject.WebAPI
             });
 
             services.AddScoped<NotificationsFilter>();
-            services.AddScoped<INotificationContext,NotificationContext>();
+            services.AddScoped<INotificationContext, NotificationContext>();
             services.AddTransient<IBinaryDataRepository, BinaryDataRepository>();
             services.AddTransient<IComparisonResultRepository, ComparisonResultRepository>();
             services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
             services.AddDbContext<DiffDbContext>(options => options.UseInMemoryDatabase(databaseName: "DiffDbDatabase"));
-            
+            services.AddScoped<ExceptionFilter>();
 
         }
 
@@ -53,11 +54,13 @@ namespace DiffProject.WebAPI
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "DiffProject.WebAPI v1"));
             }
 
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
             app.UseAuthorization();
+
 
             app.UseEndpoints(endpoints =>
             {

@@ -28,7 +28,7 @@ namespace DiffProject.Domain.AggregateModels.ComparisonAggregate
         /// </summary>
         public Guid ComparisonId { get; private set; }
 
-        
+
         private BinaryData() : base()
         {
 

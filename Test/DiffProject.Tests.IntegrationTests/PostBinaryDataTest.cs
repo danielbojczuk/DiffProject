@@ -1,8 +1,4 @@
-using DiffProject.WebAPI;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.TestHost;
 using System;
-using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -11,8 +7,8 @@ using Xunit;
 
 namespace DiffProject.Tests.IntegrationTests
 {
-    public class PostBinaryDataTest:AbstractTestClass
-    { 
+    public class PostBinaryDataTest : AbstractTestClass
+    {
         [Fact]
         public async void InvalidIdPost()
         {
@@ -23,7 +19,7 @@ namespace DiffProject.Tests.IntegrationTests
 
             //ExecutePost
             HttpResponseMessage responseMessage = await _webClient.PostAsync($"/v1/diff/{comparisonId}/{comparisonSide}", contentToSend);
-            string responseString =  await responseMessage.Content.ReadAsStringAsync();
+            string responseString = await responseMessage.Content.ReadAsStringAsync();
 
             Assert.Equal(HttpStatusCode.BadRequest, responseMessage.StatusCode);
             Assert.Equal("[\"Supplied ID is invalid\"]", responseString);

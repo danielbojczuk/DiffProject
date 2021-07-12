@@ -1,8 +1,4 @@
-using DiffProject.WebAPI;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.TestHost;
 using System;
-using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -11,9 +7,9 @@ using Xunit;
 
 namespace DiffProject.Tests.IntegrationTests
 {
-    public class PutBinaryDataTest:AbstractTestClass
+    public class PutBinaryDataTest : AbstractTestClass
     {
-         [Fact]
+        [Fact]
         public async void ValidUpdate()
         {
             //values to use in test
@@ -24,7 +20,7 @@ namespace DiffProject.Tests.IntegrationTests
             //ExecutePost
             await _webClient.PostAsync($"/v1/diff/{comparisonId}/{comparisonSide}", contentToSend);
 
-            
+
             contentToSend = new StringContent(JsonSerializer.Serialize(LoremIpsumTwoBase64), Encoding.UTF8, "application/json");
             HttpResponseMessage responseMessage = await _webClient.PutAsync($"/v1/diff/{comparisonId}/{comparisonSide}", contentToSend);
             string responseString = await responseMessage.Content.ReadAsStringAsync();

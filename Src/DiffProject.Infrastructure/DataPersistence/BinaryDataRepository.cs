@@ -39,7 +39,7 @@ namespace DiffProject.Infrastructure.DataPersistence
         }
 
         public async Task<BinaryData> Update(BinaryData binaryData)
-        {            
+        {
             if (!binaryData.ValidationResult.IsValid)
                 throw new InvalidOperationException("Invalid entity can not be persisted");
 

@@ -7,33 +7,29 @@ using Xunit;
 
 namespace DiffProject.Tests.IntegrationTests
 {
-    public class GetComparisonResultTest : AbstractTestClass
+    public class GetBinaryDataTest : AbstractTestClass
     {
         [Fact]
-        public async void ComparisonResultGet()
+        public async void BinaryDataGet()
         {
             string comparisonId = Guid.NewGuid().ToString();
             StringContent contentToSendRight = new StringContent(JsonSerializer.Serialize(LoremIpsumOneBase64), Encoding.UTF8, "application/json");
-            StringContent contentToSendLeft = new StringContent(JsonSerializer.Serialize(LoremIpsumTwoBase64), Encoding.UTF8, "application/json");
 
             //ExecutePost
-
             await _webClient.PostAsync($"/v1/diff/{comparisonId}/right", contentToSendRight);
-            await _webClient.PostAsync($"/v1/diff/{comparisonId}/left", contentToSendLeft);
 
 
-            HttpResponseMessage responseMessage = await _webClient.GetAsync($"/v1/diff/{comparisonId}");
+            HttpResponseMessage responseMessage = await _webClient.GetAsync($"/v1/diff/{comparisonId}/right");
             string responseString = await responseMessage.Content.ReadAsStringAsync();
 
             Assert.Equal(HttpStatusCode.OK, responseMessage.StatusCode);
-            Assert.Equal("{\"sidesEqual\":false,\"sameSize\":true,\"differences\":{\"12\":5,\"24\":2},\"comparisonId\":\"" + comparisonId + "\"}", responseString);
         }
 
         [Fact]
-        public async void ComparisonResultNotFoundGet()
+        public async void BinaryDataNotFoundGet()
         {
             string comparisonId = Guid.NewGuid().ToString();
-            HttpResponseMessage responseMessage = await _webClient.GetAsync($"/v1/diff/{comparisonId}");
+            HttpResponseMessage responseMessage = await _webClient.GetAsync($"/v1/diff/{comparisonId}/right");
             string responseString = await responseMessage.Content.ReadAsStringAsync();
 
             Assert.Equal(HttpStatusCode.NotFound, responseMessage.StatusCode);

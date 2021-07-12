@@ -15,12 +15,12 @@ namespace DiffProject.Application.CommandHandlers
     ///<summary>
     ///Handles the Command Set Data to perform an inclusion of a binary data to compare.
     ///</summary>
-    public class SetBinaryDataCommandHandler : AbstractCommandHandler<SetBinaryDataCommand,SetBinaryDataResponse>, IRequestHandler<SetBinaryDataCommand, SetBinaryDataResponse>
+    public class SetBinaryDataCommandHandler : AbstractCommandHandler<SetBinaryDataCommand, SetBinaryDataResponse>, IRequestHandler<SetBinaryDataCommand, SetBinaryDataResponse>
     {
         public IBinaryDataRepository BinaryDataRepository { get; private set; }
         public IComparisonResultRepository ComparisonResultRepository { get; private set; }
 
-        public SetBinaryDataCommandHandler(IBinaryDataRepository binaryDataRepository, INotificationContext notificationContext, IComparisonResultRepository comparisonResultRepository): base(notificationContext)
+        public SetBinaryDataCommandHandler(IBinaryDataRepository binaryDataRepository, INotificationContext notificationContext, IComparisonResultRepository comparisonResultRepository) : base(notificationContext)
         {
             BinaryDataRepository = binaryDataRepository;
             ComparisonResultRepository = comparisonResultRepository;

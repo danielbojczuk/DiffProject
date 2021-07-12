@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace DiffProject.WebAPI.Controllers
 {
+    [ServiceFilter(typeof(ExceptionFilter))]
     [ServiceFilter(typeof(NotificationsFilter))]
     [IdAndSideValidationFilter]
     [ApiController]
@@ -39,6 +40,16 @@ namespace DiffProject.WebAPI.Controllers
         {
             UpdateBinaryDataResponse response = await _mediator.Send(new UpdateBinaryDataCommand { CurrentComparisonID = Guid.Parse(comparisonId), CurrentComparisonSide = Enum.Parse<SideEnum>(comparisonSide), NewBase64BinaryData = base64Encoded });
             return Ok(response);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> Get(string comparisonId, string comparisonSide)
+        {
+            GetBinaryDataResponse response = await _mediator.Send(new GetBinaryDataCommand { ComparisonID = Guid.Parse(comparisonId), ComparisonSide = Enum.Parse<SideEnum>(comparisonSide)});
+            if (response == null)
+                return NotFound();
+            else
+                return Ok(response);
         }
     }
 }

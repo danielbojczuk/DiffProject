@@ -1,5 +1,4 @@
 ﻿using DiffProject.Application.Commands;
-using DiffProject.Application.Enums;
 using DiffProject.Application.Responses;
 using DiffProject.WebAPI.Filters;
 using MediatR;
@@ -10,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace DiffProject.WebAPI.Controllers
 {
+    [ServiceFilter(typeof(ExceptionFilter))]
     [ServiceFilter(typeof(NotificationsFilter))]
     [IdValidationFilter]
     [ApiController]
@@ -30,7 +30,7 @@ namespace DiffProject.WebAPI.Controllers
         [HttpGet]
         public async Task<ActionResult> Get(string comparisonId)
         {
-            ComparisonResultResponse response = await _mediator.Send(new GetComparisonResultCommand { ComparisonID = Guid.Parse(comparisonId)});
+            ComparisonResultResponse response = await _mediator.Send(new GetComparisonResultCommand { ComparisonID = Guid.Parse(comparisonId) });
             if (response == null)
                 return NotFound();
             else

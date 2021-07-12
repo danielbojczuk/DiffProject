@@ -1,14 +1,11 @@
 using DiffProject.Application.CommandHandlers;
-using DiffProject.Application.CommandHandlers.Notifications;
 using DiffProject.Application.Commands;
 using DiffProject.Application.Responses;
 using DiffProject.Domain.AggregateModels.ComparisonAggregate;
 using DiffProject.Domain.AggregateModels.ComparisonAggregate.Enums;
-using DiffProject.Domain.AggregateModels.ComparisonAggregate.RepositoryInterfaces;
 using Moq;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -16,9 +13,9 @@ using Xunit;
 namespace DiffProject.Tests.UnitTests
 {
 
-    public class ResultCalculationTest: AbstractTestClass
+    public class ResultCalculationTest : AbstractTestClass
     {
-      
+
 
         /// <summary>
         /// Method to execute the command to set the new BinaryData

@@ -1,12 +1,9 @@
 ﻿using DiffProject.Application.CommandHandlers.Notifications;
 using DiffProject.Application.Commands;
-using DiffProject.Application.Enums;
 using DiffProject.Application.Responses;
 using DiffProject.Domain.AggregateModels.ComparisonAggregate;
-using DiffProject.Domain.AggregateModels.ComparisonAggregate.Enums;
 using DiffProject.Domain.AggregateModels.ComparisonAggregate.RepositoryInterfaces;
 using MediatR;
-using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -32,7 +29,7 @@ namespace DiffProject.Application.CommandHandlers
         public override async Task<ComparisonResultResponse> Handle(GetComparisonResultCommand command, CancellationToken cancellationToken)
         {
             ComparisonResult comparisonResult = await ComparisonResultRepository.RetrieveResultByComparisonId(command.ComparisonID);
-            
+
             if (comparisonResult == null)
                 return null;
 

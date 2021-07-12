@@ -2,7 +2,7 @@
 
 namespace DiffProject.Application.Responses
 {
-    public class SetBinaryDataResponse
+    public class GetBinaryDataResponse
     {
         /// <summary>
         /// Side de data should be on comparison

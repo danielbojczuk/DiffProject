@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Net.Http.Headers;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
 using System.Net;
 
 namespace DiffProject.WebAPI.Filters
@@ -38,7 +38,7 @@ namespace DiffProject.WebAPI.Filters
             result.StatusCode = (int)HttpStatusCode.BadRequest;
             result.ContentTypes.Add(MediaTypeHeaderValue.Parse("application/json;"));
             return result;
-            
+
         }
     }
 }
