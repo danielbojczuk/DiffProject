@@ -21,7 +21,15 @@ namespace DiffProject.WebAPI.Filters
         }
         public override void OnException(ExceptionContext context)
         {
-            _logger.LogError($"{DateTime.Now} - context.Exception.ToString()");
+            StreamReader streamReader = new StreamReader(context.HttpContext.Request.Body);
+
+            StringBuilder errorLog = new StringBuilder();
+            errorLog.AppendLine($"Time: {DateTime.Now}");
+            errorLog.AppendLine($"Request Path: {context.HttpContext.Request.Path.ToString()}");
+            errorLog.AppendLine($"Request Body: {await streamReader.ReadToEndAsync()}");
+            errorLog.AppendLine($"Exception: {context.Exception.ToString()}");
+
+            _logger.LogError(errorLog.ToString());
             ObjectResult result = new ObjectResult(null);
             result.StatusCode = (int)HttpStatusCode.InternalServerError;
             context.Result = result;
