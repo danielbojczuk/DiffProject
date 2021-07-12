@@ -1,57 +1,23 @@
-﻿using DiffProject.Domain.AggregateModels.ComparisonAggregate.Enums;
+﻿using System;
+using System.Collections.Generic;
+using DiffProject.Domain.AggregateModels.ComparisonAggregate.Enums;
 using DiffProject.Domain.AggregateModels.ComparisonAggregate.Validators;
 using DiffProject.Domain.AggregateModels.SeedWork;
-using System;
-using System.Collections.Generic;
 
 namespace DiffProject.Domain.AggregateModels.ComparisonAggregate
 {
-    ///<summary>
-    ///Entity that represents the data to be compared.
-    ///</summary>
+    /// <summary>
+    /// Comparison Result Entity.
+    /// It represents differences calculation result.
+    /// </summary>
     public class ComparisonResult : Entity
     {
         /// <summary>
-        /// It will be true only if both sides are totaly equal. It will be null if it has not been calculated yet.
+        /// Initializes a new instance of the <see cref="ComparisonResult"/> class.
         /// </summary>
-        public bool? SidesEqual
-        {
-            get
-            {
-                if (SameSize == null)
-                    return null;
-
-                return (bool)SameSize && Differences.Count == 0;
-            }
-        }
-
-        /// <summary>
-        /// It will be true only if both sides are totaly equal. It will be null if it has not been calculated yet.
-        /// </summary>
-        public bool? SameSize { get; private set; }
-
-        /// <summary>
-        /// It will have the differences between the sides if they have the same size.
-        /// </summary>
-
-        public List<Difference> Differences { get; private set; }
-
-        /// <summary>
-        /// ComparisonId used in both sides and result.
-        /// </summary>
-        public Guid ComparisonId { get; private set; }
-
-        /// <summary>
-        /// The Binary Data to be compared.
-        /// </summary>
-        public List<BinaryData> BinaryDataToCompare { get; private set; }
-
-        private ComparisonResult()
-        {
-
-        }
-
-        public ComparisonResult(Guid comparisonId) : base()
+        /// <param name="comparisonId">Comparison Id used in both Binary Data.</param>
+        public ComparisonResult(Guid comparisonId)
+            : base()
         {
             SameSize = null;
             Differences = new List<Difference>();
@@ -59,10 +25,50 @@ namespace DiffProject.Domain.AggregateModels.ComparisonAggregate
             ComparisonId = comparisonId;
         }
 
+        private ComparisonResult()
+        {
+        }
+
         /// <summary>
-        /// Add the BinaryData to be used in the difference calculation
+        /// Gets the value indicating whether the both comparison sides are equal or not..
         /// </summary>
-        /// <param name="binaryDataList"></param>
+        public bool? SidesEqual
+        {
+            get
+            {
+                if (SameSize == null)
+                {
+                    return null;
+                }
+
+                return (bool)SameSize && Differences.Count == 0;
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the both comparison sides have the same sizes or not.
+        /// </summary>
+        public bool? SameSize { get; private set; }
+
+        /// <summary>
+        /// Gets  the differences between the sides. It should be set only if both sides have the same sizes.
+        /// </summary>
+        public List<Difference> Differences { get; private set; }
+
+        /// <summary>
+        /// Gets the Comparison ID..
+        /// </summary>
+        public Guid ComparisonId { get; private set; }
+
+        /// <summary>
+        /// Gets a list with the Binary Data to be compared.
+        /// </summary>
+        public List<BinaryData> BinaryDataToCompare { get; private set; }
+
+        /// <summary>
+        /// Add the BinaryData to be used in the differences calculation.
+        /// </summary>
+        /// <param name="binaryDataList">A list with the Binary Data to be compared.</param>
         public void AddDataToCompare(List<BinaryData> binaryDataList)
         {
             BinaryDataToCompare.AddRange(binaryDataList);
@@ -70,10 +76,8 @@ namespace DiffProject.Domain.AggregateModels.ComparisonAggregate
         }
 
         /// <summary>
-        /// Compare the bynary data using the logic
-        /// 
-        /// If both sides have the same lenght it will iterate throu the byte array to check if they are
-        /// equal. If some diferece were found it will add the position and lengh of the difference.
+        /// Compare the provided Binary Data.
+        /// It will only get the differences if the Binary Data have the same size.
         /// </summary>
         public void Compare()
         {
@@ -103,23 +107,28 @@ namespace DiffProject.Domain.AggregateModels.ComparisonAggregate
                         }
                     }
                     if (sequenceEqual == false)
+                    {
                         Differences.Add(new Difference(offset, leftSide.Length - offset));
+                    }
                 }
             }
         }
 
         /// <summary>
-        /// Update the the SameSize result
+        /// Check if the Bynary Data have the same size and update the the SameSize property.
         /// </summary>
-        /// <param name="lefSideLenght"></param>
-        /// <param name="rightSideLenght"></param>
+        /// <param name="lefSideLenght">Lenght of the Binary Data on the left size.</param>
+        /// <param name="rightSideLenght">Lenght of the Binary Data on the right size.</param>
         private void UpdateSamesize(int lefSideLenght, int rightSideLenght)
         {
             if (lefSideLenght == rightSideLenght)
+            {
                 SameSize = true;
+            }
             else
+            {
                 SameSize = false;
+            }
         }
-
     }
 }

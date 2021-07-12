@@ -23,7 +23,6 @@ namespace DiffProject.WebAPI
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
 
@@ -33,17 +32,24 @@ namespace DiffProject.WebAPI
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DiffProject.WebAPI", Version = "v1" });
             });
 
+            // Registering the custom filters
             services.AddScoped<NotificationsFilter>();
-            services.AddScoped<INotificationContext, NotificationContext>();
-            services.AddTransient<IBinaryDataRepository, BinaryDataRepository>();
-            services.AddTransient<IComparisonResultRepository, ComparisonResultRepository>();
-            services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
-            services.AddDbContext<DiffDbContext>(options => options.UseInMemoryDatabase(databaseName: "DiffDbDatabase"));
             services.AddScoped<ExceptionFilter>();
 
+            // Registering the Notification Context
+            services.AddScoped<INotificationContext, NotificationContext>();
+
+            // Registering the repositories
+            services.AddScoped<IBinaryDataRepository, BinaryDataRepository>();
+            services.AddScoped<IComparisonResultRepository, ComparisonResultRepository>();
+
+            // Registering the Mediatr service
+            services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
+
+            // Registering te Database Context woth the UseInMemory option.
+            services.AddDbContext<DiffDbContext>(options => options.UseInMemoryDatabase(databaseName: "DiffDbDatabase"));
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -53,13 +59,11 @@ namespace DiffProject.WebAPI
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "DiffProject.WebAPI v1"));
             }
 
-
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
             app.UseAuthorization();
-
 
             app.UseEndpoints(endpoints =>
             {

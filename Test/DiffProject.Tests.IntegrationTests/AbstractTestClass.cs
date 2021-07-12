@@ -1,50 +1,30 @@
-﻿using DiffProject.WebAPI;
+﻿using System;
+using System.IO;
+using System.Net.Http;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.IO;
-using System.Net.Http;
+using DiffProject.WebAPI;
 
 namespace DiffProject.Tests.IntegrationTests
 {
+    /// <summary>
+    /// Abstract class to provide the Web Client and Web Server to the integration testes as well the
+    /// Binary Data to use in the tests.
+    /// </summary>
     public abstract class AbstractTestClass
     {
         protected readonly TestServer _webServer;
         protected readonly HttpClient _webClient;
 
-        /// <summary>
-        /// Field with the LoeremImpsum file path to be used in the tests
-        /// </summary>
         protected readonly string _LoremIpsumOnePath;
 
-        /// <summary>
-        /// Field with the LoeremImpsum file path to be used in the tests
-        /// </summary>
         protected readonly string _LoremIpsumTwoPath;
 
         /// <summary>
-        /// Property to return the base64 encoded string to be used in the tests
+        /// Initializes a new instance of the <see cref="AbstractTestClass"/> class.
+        /// It will use de config file testSettings.json.
         /// </summary>
-        protected string LoremIpsumOneBase64
-        {
-            get
-            {
-                return Convert.ToBase64String(File.ReadAllBytes(_LoremIpsumOnePath));
-            }
-        }
-
-        /// <summary>
-        /// Property to return the base64 encoded string to be used in the tests
-        /// </summary>
-        protected string LoremIpsumTwoBase64
-        {
-            get
-            {
-                return Convert.ToBase64String(File.ReadAllBytes(_LoremIpsumTwoPath));
-            }
-        }
-
         public AbstractTestClass()
         {
             var configuration = new ConfigurationBuilder()
@@ -57,6 +37,23 @@ namespace DiffProject.Tests.IntegrationTests
             _webServer = new TestServer(new WebHostBuilder().UseStartup<Startup>());
             _webClient = _webServer.CreateClient();
         }
+
+        protected string LoremIpsumOneBase64
+        {
+            get
+            {
+                return Convert.ToBase64String(File.ReadAllBytes(_LoremIpsumOnePath));
+            }
+        }
+
+        protected string LoremIpsumTwoBase64
+        {
+            get
+            {
+                return Convert.ToBase64String(File.ReadAllBytes(_LoremIpsumTwoPath));
+            }
+        }
+
 
     }
 }

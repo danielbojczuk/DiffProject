@@ -7,19 +7,19 @@ using Xunit;
 
 namespace DiffProject.Tests.IntegrationTests
 {
+    /// <summary>
+    /// Integration tests for updating Binary Data.
+    /// </summary>
     public class PutBinaryDataTest : AbstractTestClass
     {
         [Fact]
         public async void ValidUpdate()
         {
-            //values to use in test
             string comparisonId = Guid.NewGuid().ToString();
             string comparisonSide = "right";
             StringContent contentToSend = new StringContent(JsonSerializer.Serialize(LoremIpsumOneBase64), Encoding.UTF8, "application/json");
 
-            //ExecutePost
             await _webClient.PostAsync($"/v1/diff/{comparisonId}/{comparisonSide}", contentToSend);
-
 
             contentToSend = new StringContent(JsonSerializer.Serialize(LoremIpsumTwoBase64), Encoding.UTF8, "application/json");
             HttpResponseMessage responseMessage = await _webClient.PutAsync($"/v1/diff/{comparisonId}/{comparisonSide}", contentToSend);
@@ -31,7 +31,6 @@ namespace DiffProject.Tests.IntegrationTests
         [Fact]
         public async void NotExistingBinaryDataUpdate()
         {
-            //values to use in test
             string comparisonId = Guid.NewGuid().ToString();
             string comparisonSide = "right";
             StringContent contentToSend = new StringContent(JsonSerializer.Serialize(LoremIpsumOneBase64), Encoding.UTF8, "application/json");
@@ -42,6 +41,5 @@ namespace DiffProject.Tests.IntegrationTests
             Assert.Equal(HttpStatusCode.BadRequest, responseMessage.StatusCode);
             Assert.Equal("[\"Comparison Id not found\"]", responseString);
         }
-
     }
 }

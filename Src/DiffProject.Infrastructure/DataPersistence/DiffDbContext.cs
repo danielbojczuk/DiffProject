@@ -3,12 +3,31 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DiffProject.Infrastructure.DataPersistence
 {
+    /// <summary>
+    /// Database context for the DiffProject.
+    /// </summary>
     public class DiffDbContext : DbContext
     {
-        public DbSet<BinaryData> BinaryData { get; set; }
-        public DbSet<ComparisonResult> ComparisonResults { get; set; }
-        public DiffDbContext(DbContextOptions<DiffDbContext> options) : base(options) { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DiffDbContext"/> class.
+        /// </summary>
+        /// <param name="options">Instance of <see cref="DbContextOptions"/>.</param>
+        public DiffDbContext(DbContextOptions<DiffDbContext> options)
+            : base(options)
+        {
+        }
 
+        /// <summary>
+        /// Gets or sets the Binary Data <see cref="DbSet"/>.
+        /// </summary>
+        public DbSet<BinaryData> BinaryData { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Comparison Results <see cref="DbSet"/>.
+        /// </summary>
+        public DbSet<ComparisonResult> ComparisonResults { get; set; }
+
+        /// <inheritdoc cref="OnModelCreating"/>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<BinaryData>(

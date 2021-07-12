@@ -1,37 +1,42 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Net.Http.Headers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Net.Http.Headers;
 
 namespace DiffProject.WebAPI.Filters
 {
     /// <summary>
-    /// Provide the Filter melhtods to validate the Id and the Side provided in the request
+    /// Abstract Validation Filter.
     /// </summary>
     public class AbstractValidationFilter : ActionFilterAttribute
     {
         /// <summary>
         /// Check if the provided string is a GUID.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        protected bool IsIdValid(string id)
+        /// <param name="id">String with a Guid to validate.</param>
+        /// <returns>Validation result.</returns>
+        protected bool IsValidId(string id)
         {
             Guid guid = new Guid();
             return Guid.TryParse(id, out guid);
         }
         /// <summary>
-        /// Profide if the provided side comparison is valid
+        /// Check if the provided side is valid.
         /// </summary>
-        /// <param name="side"></param>
-        /// <returns></returns>
+        /// <param name="side">The side to validate</param>
+        /// <returns>Validation result.</returns>
         protected bool IsSideValid(string side)
         {
-            return (side == "left" || side == "right");
+            return side == "left" || side == "right";
         }
 
+        /// <summary>
+        /// Create te BadRequest result to be returnd by the filtes.
+        /// </summary>
+        /// <param name="validationResult">List of validation messages.</param>
+        /// <returns>The result to be returned</returns>
         protected ObjectResult CreateBadRequestResult(List<string> validationResult)
         {
             ObjectResult result = new ObjectResult(validationResult);

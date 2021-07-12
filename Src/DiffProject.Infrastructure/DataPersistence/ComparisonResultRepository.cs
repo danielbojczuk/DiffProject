@@ -7,13 +7,21 @@ using System.Threading.Tasks;
 
 namespace DiffProject.Infrastructure.DataPersistence
 {
+    ///<inheritdoc cref="IComparisonResultRepository"/>
     public class ComparisonResultRepository : IComparisonResultRepository
     {
-        public readonly DiffDbContext _diffDbContext;
+        private readonly DiffDbContext _diffDbContext;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ComparisonResultRepository"/> class.
+        /// </summary>
+        /// <param name="dbContext">Database Context<</param>
         public ComparisonResultRepository(DiffDbContext dbContext)
         {
             _diffDbContext = dbContext;
         }
+
+        ///<inheritdoc cref="Add"/>
         public async Task<ComparisonResult> Add(ComparisonResult binaryData)
         {
             if (!binaryData.ValidationResult.IsValid)
@@ -23,6 +31,7 @@ namespace DiffProject.Infrastructure.DataPersistence
             return binaryData;
         }
 
+        ///<inheritdoc cref="RetrieveResultByComparisonId"/>
         public async Task<ComparisonResult> RetrieveResultByComparisonId(Guid comparisonid)
         {
             return await _diffDbContext.ComparisonResults.Include(x => x.Differences).Where(x => x.ComparisonId == comparisonid).FirstOrDefaultAsync();

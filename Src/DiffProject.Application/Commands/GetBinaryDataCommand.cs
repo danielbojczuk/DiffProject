@@ -1,23 +1,23 @@
-﻿using DiffProject.Application.Enums;
+﻿using System;
+using DiffProject.Application.Enums;
 using DiffProject.Application.Responses;
 using MediatR;
-using System;
 
 namespace DiffProject.Application.Commands
 {
-    ///<summary>
-    ///The 'Set Data' Command to be handled by the application.
-    ///</summary>
+    /// <summary>
+    /// Command to get the Binary Data already set.
+    /// </summary>
     public class GetBinaryDataCommand : IRequest<GetBinaryDataResponse>
     {
-        ///<summary>
-        ///The Id of the Comparison that shlould be the same for the left and right data.
-        ///</summary>
-        public Guid ComparisonID { get; set; }
+        /// <summary>
+        /// Gets or sets the Bynary Data Comparison Id to query.
+        /// </summary>
+        public Guid ComparisonId { get; set; }
 
-        ///<summary>
-        ///The side to use in the comparison.
-        ///</summary>
+        /// <summary>
+        /// Gets or sets the Binary Data Side to query.
+        /// </summary>
         public SideEnum ComparisonSide { get; set; }
     }
 }

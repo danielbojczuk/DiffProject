@@ -7,17 +7,19 @@ using Xunit;
 
 namespace DiffProject.Tests.IntegrationTests
 {
+    /// <summary>
+    /// Integration tests for Posting Binary Data
+    /// </summary>
     public class PostBinaryDataTest : AbstractTestClass
     {
         [Fact]
         public async void InvalidIdPost()
         {
-            //values to use in test
             string comparisonId = "InvalidId";
             string comparisonSide = "right";
             StringContent contentToSend = new StringContent(JsonSerializer.Serialize(LoremIpsumOneBase64), Encoding.UTF8, "application/json");
 
-            //ExecutePost
+            
             HttpResponseMessage responseMessage = await _webClient.PostAsync($"/v1/diff/{comparisonId}/{comparisonSide}", contentToSend);
             string responseString = await responseMessage.Content.ReadAsStringAsync();
 
@@ -28,12 +30,10 @@ namespace DiffProject.Tests.IntegrationTests
         [Fact]
         public async void InvalidSidePost()
         {
-            //values to use in test
             string comparisonId = Guid.NewGuid().ToString();
             string comparisonSide = "InvalidSide";
             StringContent contentToSend = new StringContent(JsonSerializer.Serialize(LoremIpsumOneBase64), Encoding.UTF8, "application/json");
 
-            //ExecutePost
             HttpResponseMessage responseMessage = await _webClient.PostAsync($"/v1/diff/{comparisonId}/{comparisonSide}", contentToSend);
             string responseString = await responseMessage.Content.ReadAsStringAsync();
 
@@ -44,12 +44,10 @@ namespace DiffProject.Tests.IntegrationTests
         [Fact]
         public async void InvalidIdAndSidePost()
         {
-            //values to use in test
             string comparisonId = "InvalidId";
             string comparisonSide = "InvalidSide";
             StringContent contentToSend = new StringContent(JsonSerializer.Serialize(LoremIpsumOneBase64), Encoding.UTF8, "application/json");
 
-            //ExecutePost
             HttpResponseMessage responseMessage = await _webClient.PostAsync($"/v1/diff/{comparisonId}/{comparisonSide}", contentToSend);
             string responseString = await responseMessage.Content.ReadAsStringAsync();
 
@@ -64,7 +62,6 @@ namespace DiffProject.Tests.IntegrationTests
             string comparisonSide = "right";
             StringContent contentToSend = new StringContent(JsonSerializer.Serialize("InvalidBase64"), Encoding.UTF8, "application/json");
 
-            //ExecutePost
             HttpResponseMessage responseMessage = await _webClient.PostAsync($"/v1/diff/{comparisonId}/{comparisonSide}", contentToSend);
             string responseString = await responseMessage.Content.ReadAsStringAsync();
 
@@ -79,7 +76,6 @@ namespace DiffProject.Tests.IntegrationTests
             string comparisonSide = "right";
             StringContent contentToSend = new StringContent(JsonSerializer.Serialize(LoremIpsumOneBase64), Encoding.UTF8, "application/json");
 
-            //ExecutePost
             HttpResponseMessage responseMessage = await _webClient.PostAsync($"/v1/diff/{comparisonId}/{comparisonSide}", contentToSend);
             string responseString = await responseMessage.Content.ReadAsStringAsync();
 
@@ -93,7 +89,6 @@ namespace DiffProject.Tests.IntegrationTests
             string comparisonSide = "right";
             StringContent contentToSend = new StringContent(JsonSerializer.Serialize(LoremIpsumOneBase64), Encoding.UTF8, "application/json");
 
-            //ExecutePost
             await _webClient.PostAsync($"/v1/diff/{comparisonId}/{comparisonSide}", contentToSend);
             HttpResponseMessage responseMessage = await _webClient.PostAsync($"/v1/diff/{comparisonId}/{comparisonSide}", contentToSend);
             string responseString = await responseMessage.Content.ReadAsStringAsync();
@@ -109,7 +104,6 @@ namespace DiffProject.Tests.IntegrationTests
             string comparisonSide = "right";
             StringContent contentToSend = new StringContent(JsonSerializer.Serialize(LoremIpsumOneBase64), Encoding.UTF8, "application/json");
 
-            //ExecutePost
             await _webClient.PostAsync($"/v1/diff/{comparisonId}/{comparisonSide}", contentToSend);
 
             comparisonId = Guid.NewGuid().ToString();

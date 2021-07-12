@@ -1,28 +1,28 @@
-﻿using DiffProject.Application.Enums;
+﻿using System;
+using DiffProject.Application.Enums;
 using DiffProject.Application.Responses;
 using MediatR;
-using System;
 
 namespace DiffProject.Application.Commands
 {
-    ///<summary>
-    ///The 'Set Data' Command to be handled by the application.
-    ///</summary>
+    /// <summary>
+    /// Command to set a new Bynary Data.
+    /// </summary>
     public class SetBinaryDataCommand : IRequest<SetBinaryDataResponse>
     {
-        ///<summary>
-        ///Id of the Comparison: shlould be the same for the left and right data.
-        ///</summary>
+        /// <summary>
+        /// Gets or sets the Comparison Id. It should be the same for the both Binary Data to be compared.
+        /// </summary>
         public Guid ComparisonID { get; set; }
 
-        ///<summary>
-        ///The Base64 encoded binary data.
-        ///</summary>
-        public String Base64BinaryData { get; set; }
+        /// <summary>
+        /// Gets or sets the Bynary Data to be compared. It should be a valid Base64 encoded string.
+        /// </summary>
+        public string Base64BinaryData { get; set; }
 
-        ///<summary>
-        ///The side to use in the comparison.
-        ///</summary>
+        /// <summary>
+        /// Gets or sets the side of the bynary data side in the comparison.
+        /// </summary>
         public SideEnum ComparisonSide { get; set; }
     }
 }

@@ -4,14 +4,14 @@ using System;
 
 namespace DiffProject.Application.Commands
 {
-    ///<summary>
-    ///The 'Set Data' Command to be handled by the application.
-    ///</summary>
+    /// <summary>
+    /// Command to get the calculated Comparison Result.
+    /// </summary>
     public class GetComparisonResultCommand : IRequest<ComparisonResultResponse>
     {
-        ///<summary>
-        ///The Id of the Comparison that shlould be the same for the left and right data.
-        ///</summary>
+        /// <summary>
+        /// Gets or sets the Comparison Id to query.
+        /// </summary>
         public Guid ComparisonID { get; set; }
     }
 }

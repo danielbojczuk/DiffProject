@@ -1,11 +1,11 @@
-﻿using DiffProject.Application.Commands;
+﻿using System;
+using System.Threading.Tasks;
+using DiffProject.Application.Commands;
 using DiffProject.Application.Responses;
 using DiffProject.WebAPI.Filters;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Threading.Tasks;
 
 namespace DiffProject.WebAPI.Controllers
 {
@@ -32,9 +32,13 @@ namespace DiffProject.WebAPI.Controllers
         {
             ComparisonResultResponse response = await _mediator.Send(new GetComparisonResultCommand { ComparisonID = Guid.Parse(comparisonId) });
             if (response == null)
+            {
                 return NotFound();
+            }
             else
+            {
                 return Ok(response);
+            }
         }
     }
 }

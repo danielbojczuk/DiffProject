@@ -1,21 +1,25 @@
 ﻿using DiffProject.Application.CommandHandlers.Notifications;
-using System.Threading;
-using System.Threading.Tasks;
+
 
 namespace DiffProject.Application.CommandHandlers
 {
-    ///<summary>
-    ///Handles the Command Set Data to perform an inclusion of a binary data to compare.
-    ///</summary>
-    public abstract class AbstractCommandHandler<T, K>
+    /// <summary>
+    /// Abstract 'Command Handler'. It provides the Notification context to be used in order to Add the business validation results.
+    /// </summary>
+    public abstract class AbstractCommandHandler
     {
-        public INotificationContext NotificationContext { get; private set; }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AbstractCommandHandler"/> class.
+        /// </summary>
+        /// <param name="notificationContext">dddd.</param>
         public AbstractCommandHandler(INotificationContext notificationContext)
         {
             NotificationContext = notificationContext;
         }
-        public abstract Task<K> Handle(T command, CancellationToken cancellationToken);
 
+        /// <summary>
+        /// Gets the business logic validation results.
+        /// </summary>
+        public INotificationContext NotificationContext { get; private set; }
     }
 }

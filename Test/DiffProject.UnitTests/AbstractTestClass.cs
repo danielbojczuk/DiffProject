@@ -1,9 +1,10 @@
-﻿using DiffProject.Application.CommandHandlers.Notifications;
-using DiffProject.Domain.AggregateModels.ComparisonAggregate.RepositoryInterfaces;
-using Microsoft.Extensions.Configuration;
-using Moq;
-using System;
+﻿using System;
 using System.IO;
+using Microsoft.Extensions.Configuration;
+using DiffProject.Application.CommandHandlers.Notifications;
+using DiffProject.Domain.AggregateModels.ComparisonAggregate.RepositoryInterfaces;
+using Moq;
+
 
 
 
@@ -11,24 +12,12 @@ namespace DiffProject.Tests.UnitTests
 {
     public abstract class AbstractTestClass
     {
-        /// <summary>
-        /// Field with the LoeremImpsum file path to be used in the tests
-        /// </summary>
-        protected string _LoremIpsumOnePath;
+        protected readonly string _LoremIpsumOnePath;
 
-        /// <summary>
-        /// Field with the LoeremImpsum file path to be used in the tests
-        /// </summary>
-        protected string _LoremIpsumTwoPath;
+        protected readonly string _LoremIpsumTwoPath;
 
-        /// <summary>
-        /// Field with the LoeremImpsum file path to be used in the tests
-        /// </summary>
-        protected string _LoremIpsumDifferentSizePath;
+        protected readonly string _LoremIpsumDifferentSizePath;
 
-        /// <summary>
-        /// Property to return the base64 encoded string to be used in the tests
-        /// </summary>
         protected string LoremIpsumOneBase64
         {
             get
@@ -37,9 +26,6 @@ namespace DiffProject.Tests.UnitTests
             }
         }
 
-        /// <summary>
-        /// Property to return the base64 encoded string to be used in the tests
-        /// </summary>
         protected string LoremIpsumTwoBase64
         {
             get
@@ -49,9 +35,6 @@ namespace DiffProject.Tests.UnitTests
         }
 
 
-        /// <summary>
-        /// Property to return the base64 encoded string to be used in the tests
-        /// </summary>
         protected string LoremIpsumDifferentSizeBase64
         {
             get
@@ -60,16 +43,15 @@ namespace DiffProject.Tests.UnitTests
             }
         }
 
-        /// <summary>
-        /// Repository mocking to be used in the tests
-        /// </summary>
-        protected Mock<IBinaryDataRepository> _binaryDataRepositoryMock;
-        protected Mock<IComparisonResultRepository> _comparisonResultRepository;
+        protected readonly Mock<IBinaryDataRepository> _binaryDataRepositoryMock;
+        protected readonly Mock<IComparisonResultRepository> _comparisonResultRepository;
+
+        protected readonly NotificationContext _notificationContext;
 
         /// <summary>
-        /// Notification context required for the CommandHandler
+        /// Initializes a new instance of the <see cref="AbstractTestClass"/> class.
+        /// It will use de config file testSettings.json.
         /// </summary>
-        protected NotificationContext _notificationContext;
         public AbstractTestClass()
         {
             var configuration = new ConfigurationBuilder()

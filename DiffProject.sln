@@ -20,11 +20,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{
 		Test\Resources\LoremIpsumDifferentSize.txt = Test\Resources\LoremIpsumDifferentSize.txt
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiffProject.WebAPI", "Src\DiffProject.WebAPI\DiffProject.WebAPI.csproj", "{3635EF36-1A36-402C-8534-232B607A77B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiffProject.WebAPI", "Src\DiffProject.WebAPI\DiffProject.WebAPI.csproj", "{3635EF36-1A36-402C-8534-232B607A77B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiffProject.Tests.IntegrationTests", "Test\DiffProject.Tests.IntegrationTests\DiffProject.Tests.IntegrationTests.csproj", "{C3FB4076-4947-4D35-95EA-39952C8807D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiffProject.Tests.IntegrationTests", "Test\DiffProject.Tests.IntegrationTests\DiffProject.Tests.IntegrationTests.csproj", "{C3FB4076-4947-4D35-95EA-39952C8807D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiffProject.Infrastructure", "Src\DiffProject.Infrastructure\DiffProject.Infrastructure.csproj", "{AAA39B45-8134-4496-A7EB-0215AFB15F65}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiffProject.Infrastructure", "Src\DiffProject.Infrastructure\DiffProject.Infrastructure.csproj", "{AAA39B45-8134-4496-A7EB-0215AFB15F65}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

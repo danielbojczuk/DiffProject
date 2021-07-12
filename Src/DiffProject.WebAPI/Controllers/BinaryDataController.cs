@@ -1,12 +1,12 @@
-﻿using DiffProject.Application.Commands;
+﻿using System;
+using System.Threading.Tasks;
+using DiffProject.Application.Commands;
 using DiffProject.Application.Enums;
 using DiffProject.Application.Responses;
 using DiffProject.WebAPI.Filters;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Threading.Tasks;
 
 namespace DiffProject.WebAPI.Controllers
 {
@@ -45,11 +45,15 @@ namespace DiffProject.WebAPI.Controllers
         [HttpGet]
         public async Task<ActionResult> Get(string comparisonId, string comparisonSide)
         {
-            GetBinaryDataResponse response = await _mediator.Send(new GetBinaryDataCommand { ComparisonID = Guid.Parse(comparisonId), ComparisonSide = Enum.Parse<SideEnum>(comparisonSide) });
+            GetBinaryDataResponse response = await _mediator.Send(new GetBinaryDataCommand { ComparisonId = Guid.Parse(comparisonId), ComparisonSide = Enum.Parse<SideEnum>(comparisonSide) });
             if (response == null)
+            {
                 return NotFound();
+            }
             else
+            {
                 return Ok(response);
+            }
         }
     }
 }

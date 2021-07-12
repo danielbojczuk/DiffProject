@@ -2,25 +2,28 @@
 
 namespace DiffProject.Application.Responses
 {
+    /// <summary>
+    /// The repsponse of <see cref="GetBinaryDataCommand"/>.
+    /// </summary>
     public class GetBinaryDataResponse
     {
         /// <summary>
-        /// Side de data should be on comparison
+        /// Gets or sets the side of the bynary data side in the comparison.
         /// </summary>
         public string ComparisonSide { get; set; }
 
         /// <summary>
-        /// Base64 encoded binary Data
+        /// Gets or sets the Bynary Data to be compared. It should be a valid Base64 encoded string.
         /// </summary>
         public string Base64BinaryData { get; set; }
 
         /// <summary>
-        /// ComparisonId used in both sides and result.
+        /// Gets or sets the Comparison Id. It should be the same for the both Binary Data to be compared.
         /// </summary>
         public Guid ComparisonId { get; set; }
 
         /// <summary>
-        /// Binary Data Created ID
+        /// Gets or sets de Binary Data Id.
         /// </summary>
         public Guid Id { get; set; }
     }

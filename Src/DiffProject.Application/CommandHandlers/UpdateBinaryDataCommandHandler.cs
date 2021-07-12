@@ -1,4 +1,7 @@
-﻿using DiffProject.Application.CommandHandlers.Notifications;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using DiffProject.Application.CommandHandlers.Notifications;
 using DiffProject.Application.Commands;
 using DiffProject.Application.Enums;
 using DiffProject.Application.Responses;
@@ -6,33 +9,34 @@ using DiffProject.Domain.AggregateModels.ComparisonAggregate;
 using DiffProject.Domain.AggregateModels.ComparisonAggregate.Enums;
 using DiffProject.Domain.AggregateModels.ComparisonAggregate.RepositoryInterfaces;
 using MediatR;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace DiffProject.Application.CommandHandlers
 {
-    ///<summary>
-    ///Handles the Command Set Data to perform an inclusion of a binary data to compare.
-    ///</summary>
-    public class UpdateBinaryDataCommandHandler : AbstractCommandHandler<UpdateBinaryDataCommand, UpdateBinaryDataResponse>, IRequestHandler<UpdateBinaryDataCommand, UpdateBinaryDataResponse>
+    /// <summary>
+    /// It Handles the Command <see cref="UpdateBinaryDataCommand"/> to calculate de differences between the Binary Data.
+    /// </summary>
+    public class UpdateBinaryDataCommandHandler : AbstractCommandHandler, IRequestHandler<UpdateBinaryDataCommand, UpdateBinaryDataResponse>
     {
-        public IBinaryDataRepository BinaryDataRepository { get; private set; }
-        public IComparisonResultRepository ComparisonResultRepository { get; private set; }
+        private IBinaryDataRepository _binaryDataRepository;
+
+        private IComparisonResultRepository _comparisonResultRepository;
 
         public UpdateBinaryDataCommandHandler(IBinaryDataRepository binaryDataRepository, INotificationContext notificationContext, IComparisonResultRepository comparisonResultRepository) : base(notificationContext)
         {
-            BinaryDataRepository = binaryDataRepository;
-            ComparisonResultRepository = comparisonResultRepository;
+            _binaryDataRepository = binaryDataRepository;
+            _comparisonResultRepository = comparisonResultRepository;
         }
 
-        ///<summary>
-        ///Execute Async the 'Update Data' Command
-        ///</summary>
-        ///<param name="command">Command to be handled with the Comparison Id and the Bas64 Binary Data</param>
-        public override async Task<UpdateBinaryDataResponse> Handle(UpdateBinaryDataCommand command, CancellationToken cancellationToken)
+        /// <summary>
+        /// Handle the command <see cref="UpdateBinaryDataCommand"/>.
+        /// It will update the binary data to be compared
+        /// </summary>
+        /// <param name="command">An instance of <see cref="UpdateBinaryDataCommand"/> implementation.</param>
+        /// <param name="cancellationToken">An instance of <see cref="CancellationToken"/></param>
+        /// <returns>If a valid Binary Data was provided it will return an instance of <see cref="UpdateBinaryDataResponse"/>. Otherwise it will return <see cref="null"/>.</returns>
+        public async Task<UpdateBinaryDataResponse> Handle(UpdateBinaryDataCommand command, CancellationToken cancellationToken)
         {
-            BinaryData binaryData = await BinaryDataRepository.RetrieveDBinaryDataByComparisonIdAndSide(command.CurrentComparisonID, ConvertCommandEnumToEntityEnum(command.CurrentComparisonSide));
+            BinaryData binaryData = await _binaryDataRepository.RetrieveDBinaryDataByComparisonIdAndSide(command.CurrentComparisonID, ConvertCommandEnumToEntityEnum(command.CurrentComparisonSide));
             if (binaryData == null)
             {
                 NotificationContext.AddNotification("Comparison Id not found");
@@ -46,7 +50,7 @@ namespace DiffProject.Application.CommandHandlers
                 return null;
             }
 
-            BinaryData updatedBinaryData = await BinaryDataRepository.Update(binaryData);
+            BinaryData updatedBinaryData = await _binaryDataRepository.Update(binaryData);
 
             StartComparison(updatedBinaryData.ComparisonId, cancellationToken);
 
@@ -55,32 +59,22 @@ namespace DiffProject.Application.CommandHandlers
                 Id = updatedBinaryData.Id,
                 ComparisonId = updatedBinaryData.ComparisonId,
                 Base64BinaryData = updatedBinaryData.Base64BinaryData,
-                ComparisonSide = ConvertEntityEnumToCommandEnum(updatedBinaryData.ComparisonSide)
+                ComparisonSide = ConvertEntityEnumToCommandEnum(updatedBinaryData.ComparisonSide),
             };
         }
 
         private void StartComparison(Guid comparisonId, CancellationToken cancellationToken)
         {
-            CalculationCommandHandler calculationCommandHandler = new CalculationCommandHandler(BinaryDataRepository, new NotificationContext(), ComparisonResultRepository);
-            calculationCommandHandler.Handle(new ComparisonResultCommand { ComparisonID = comparisonId }, cancellationToken).GetAwaiter();
+            CompareBinaryDataCommandHandler calculationCommandHandler = new CompareBinaryDataCommandHandler(_binaryDataRepository, new NotificationContext(), _comparisonResultRepository);
+            calculationCommandHandler.Handle(new CompareBinaryDataCommand { ComparisonIs = comparisonId }, cancellationToken).GetAwaiter();
         }
 
-        /// <summary>
-        /// Method to convert the Application Enum to the Domain Enum
-        /// </summary>
-        /// <param name="commandEnum">The application Enum</param>
-        /// <returns></returns>
         private ComparisonSideEnum ConvertCommandEnumToEntityEnum(SideEnum commandEnum)
         {
             int integerEnumValue = (int)commandEnum;
             return (ComparisonSideEnum)integerEnumValue;
         }
 
-        /// <summary>
-        /// Method to convert the  Domain Enum to the Application Enum
-        /// </summary>
-        /// <param name="commandEnum">The Entity Side Enum</param>
-        /// <returns></returns>
         private SideEnum ConvertEntityEnumToCommandEnum(ComparisonSideEnum commandEnum)
         {
             int integerEnumValue = (int)commandEnum;
