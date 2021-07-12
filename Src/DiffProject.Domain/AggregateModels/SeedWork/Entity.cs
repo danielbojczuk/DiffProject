@@ -11,11 +11,6 @@ namespace DiffProject.Domain.AggregateModels.SeedWork
         public Guid Id { get; private set; }
 
         /// <summary>
-        /// Keeps the Result active or just for history checking
-        /// </summary>
-        public bool Active { get; private set; }
-
-        /// <summary>
         /// Property to keep the Fluent validation status
         /// </summary>
         public ValidationResult ValidationResult { get; private set; }
@@ -23,7 +18,6 @@ namespace DiffProject.Domain.AggregateModels.SeedWork
         public Entity()
         {
             Id = Guid.NewGuid();
-            Active = true;
         }
 
         /// <summary>
@@ -37,11 +31,6 @@ namespace DiffProject.Domain.AggregateModels.SeedWork
         {
             ValidationResult = validator.Validate(model);
             return ValidationResult.IsValid;
-        }
-
-        public void DesactivateEntity()
-        {
-            Active = false;
         }
 
     }

@@ -102,5 +102,53 @@ namespace DiffProject.Tests.IntegrationTests
             Assert.Equal(HttpStatusCode.BadRequest, responseMessage.StatusCode);
             Assert.Equal("[\"Invalid Base64 String\"]", responseString);
         }
+
+        [Fact]
+        public async void ValidPosting()
+        {
+            string comparisonId = Guid.NewGuid().ToString();
+            string comparisonSide = "right";
+            StringContent contentToSend = new StringContent(JsonSerializer.Serialize(LoremIpsumOneBase64), Encoding.UTF8, "application/json");
+
+            //ExecutePost
+            HttpResponseMessage responseMessage = await _webClient.PostAsync($"/v1/diff/{comparisonId}/{comparisonSide}", contentToSend);
+            string responseString = await responseMessage.Content.ReadAsStringAsync();
+
+            Assert.Equal(HttpStatusCode.Created, responseMessage.StatusCode);
+        }
+
+        [Fact]
+        public async void DuplicatedPosting()
+        {
+            string comparisonId = Guid.NewGuid().ToString();
+            string comparisonSide = "right";
+            StringContent contentToSend = new StringContent(JsonSerializer.Serialize(LoremIpsumOneBase64), Encoding.UTF8, "application/json");
+
+            //ExecutePost
+            await _webClient.PostAsync($"/v1/diff/{comparisonId}/{comparisonSide}", contentToSend);
+            HttpResponseMessage responseMessage = await _webClient.PostAsync($"/v1/diff/{comparisonId}/{comparisonSide}", contentToSend);
+            string responseString = await responseMessage.Content.ReadAsStringAsync();
+
+            Assert.Equal(HttpStatusCode.BadRequest, responseMessage.StatusCode);
+            Assert.Equal("[\"There is already a Binary Data with this Comparison Id and Side\"]", responseString);
+        }
+
+        [Fact]
+        public async void PostingBothSides()
+        {
+            string comparisonId = Guid.NewGuid().ToString();
+            string comparisonSide = "right";
+            StringContent contentToSend = new StringContent(JsonSerializer.Serialize(LoremIpsumOneBase64), Encoding.UTF8, "application/json");
+
+            //ExecutePost
+            await _webClient.PostAsync($"/v1/diff/{comparisonId}/{comparisonSide}", contentToSend);
+
+            comparisonId = Guid.NewGuid().ToString();
+            comparisonSide = "left";
+
+            HttpResponseMessage responseMessage = await _webClient.PostAsync($"/v1/diff/{comparisonId}/{comparisonSide}", contentToSend);
+            string responseString = await responseMessage.Content.ReadAsStringAsync();
+            Assert.Equal(HttpStatusCode.Created, responseMessage.StatusCode);
+        }
     }
 }

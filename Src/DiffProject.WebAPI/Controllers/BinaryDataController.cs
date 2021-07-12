@@ -32,5 +32,12 @@ namespace DiffProject.WebAPI.Controllers
             SetBinaryDataResponse response = await _mediator.Send(new SetBinaryDataCommand { ComparisonID = Guid.Parse(comparisonId), ComparisonSide = Enum.Parse<SideEnum>(comparisonSide), Base64BinaryData = base64Encoded });
             return Created($"v1/diff/{comparisonId}/{comparisonSide}", response);
         }
+
+        [HttpPut]
+        public async Task<ActionResult> Put(string comparisonId, string comparisonSide, [FromBody] string base64Encoded)
+        {
+            UpdateBinaryDataResponse response = await _mediator.Send(new UpdateBinaryDataCommand { CurrentComparisonID = Guid.Parse(comparisonId), CurrentComparisonSide = Enum.Parse<SideEnum>(comparisonSide), NewBase64BinaryData = base64Encoded });
+            return Ok(response);
+        }
     }
 }

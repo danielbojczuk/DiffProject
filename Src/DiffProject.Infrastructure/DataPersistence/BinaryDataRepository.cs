@@ -28,34 +28,24 @@ namespace DiffProject.Infrastructure.DataPersistence
         public async Task<List<BinaryData>> RetrieveDBinaryDataByComparisonId(Guid comparisonid)
         {
             return await (from b in _diffDbContext.BinaryData
-                         where b.Active == true && b.ComparisonId == comparisonid
+                         where b.ComparisonId == comparisonid
                          select b).ToListAsync();
         }
 
         public async Task<BinaryData> RetrieveDBinaryDataByComparisonIdAndSide(Guid comparisonid, ComparisonSideEnum side)
         {
-            return await _diffDbContext.BinaryData.FirstOrDefaultAsync(x => x.Active == true && x.ComparisonId == comparisonid && x.ComparisonSide == side);
+            return await _diffDbContext.BinaryData.FirstOrDefaultAsync(x => x.ComparisonId == comparisonid && x.ComparisonSide == side);
         }
 
         public async Task<BinaryData> Update(BinaryData binaryData)
-        {
+        {            
             if (!binaryData.ValidationResult.IsValid)
                 throw new InvalidOperationException("Invalid entity can not be persisted");
 
-            BinaryData oldBinaryId = await RetrieveDBinaryDataById(binaryData.Id);
-            oldBinaryId.DesactivateEntity();
-            _diffDbContext.BinaryData.Update(oldBinaryId);
-
-            BinaryData newBinaryData = new BinaryData(binaryData.ComparisonSide, binaryData.Base64BinaryData, binaryData.ComparisonId, this);
-            await _diffDbContext.BinaryData.AddAsync(newBinaryData);
+            _diffDbContext.BinaryData.Update(binaryData);
 
             await _diffDbContext.SaveChangesAsync();
-            return newBinaryData;
-        }
-
-        public async Task<BinaryData> RetrieveDBinaryDataById(Guid binaryDataId)
-        {
-            return await _diffDbContext.BinaryData.FirstOrDefaultAsync(x => x.Id == binaryDataId);
+            return binaryData;
         }
     }
 }
