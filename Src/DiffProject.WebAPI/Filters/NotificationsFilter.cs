@@ -8,8 +8,8 @@ using Microsoft.AspNetCore.Mvc.Filters;
 namespace DiffProject.WebAPI.Filters
 {
     /// <summary>
-    /// This filter will get the notifications in the command handler
-    /// and send create a response with a Bad Request.
+    /// Gets the notifications in the command handler
+    /// and creates a Bad Request response.
     /// </summary>
     public class NotificationsFilter : IAsyncResultFilter
     {

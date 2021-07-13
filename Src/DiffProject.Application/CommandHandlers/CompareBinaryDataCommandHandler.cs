@@ -10,7 +10,7 @@ using DiffProject.Domain.AggregateModels.ComparisonAggregate.RepositoryInterface
 namespace DiffProject.Application.CommandHandlers
 {
     /// <summary>
-    /// It Handles the Command <see cref="CompareBinaryDataCommand"/> to calculate de differences between the Binary Data.
+    /// It Handles the Command <see cref="CompareBinaryDataCommand"/> to calculate de differences between the Binary Data sets.
     /// </summary>
     public class CompareBinaryDataCommandHandler : AbstractCommandHandler
     {

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 namespace DiffProject.WebAPI.Filters
 {
     /// <summary>
-    /// This filter will let the request continue only if the Id is as expected.
+    /// Let the request continue only if the Id is as expected.
     /// </summary>
     public class IdValidationFilter : AbstractValidationFilter
     {

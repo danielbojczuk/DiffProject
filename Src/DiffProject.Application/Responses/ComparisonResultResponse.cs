@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace DiffProject.Application.Responses
 {
     /// <summary>
-    /// Response of <see cref="CompareBinaryDataCommand"/>.
+    /// The response of <see cref="CompareBinaryDataCommand"/>.
     /// </summary>
     public class ComparisonResultResponse
     {

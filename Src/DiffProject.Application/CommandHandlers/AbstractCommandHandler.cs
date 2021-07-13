@@ -4,7 +4,7 @@
 namespace DiffProject.Application.CommandHandlers
 {
     /// <summary>
-    /// Abstract 'Command Handler'. It provides the Notification context to be used in order to Add the business validation results.
+    /// It provides the Notification Context containing the business validation results.
     /// </summary>
     public abstract class AbstractCommandHandler
     {

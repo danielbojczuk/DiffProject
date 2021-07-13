@@ -5,11 +5,11 @@ using DiffProject.Application.CommandHandlers.Notifications;
 using DiffProject.Domain.AggregateModels.ComparisonAggregate.RepositoryInterfaces;
 using Moq;
 
-
-
-
 namespace DiffProject.Tests.UnitTests
 {
+    /// <summary>
+    /// Abstract class to provide the Binary Data sets to be used in the tests.
+    /// </summary>
     public abstract class AbstractTestClass
     {
         protected readonly string _LoremIpsumOnePath;

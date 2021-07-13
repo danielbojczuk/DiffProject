@@ -9,8 +9,8 @@ using Microsoft.Extensions.Logging;
 namespace DiffProject.WebAPI.Filters
 {
     /// <summary>
-    /// Filter that runs on an unhandled exception. It will log the esception and return
-    /// Internal Server Error result with an empty body.
+    /// Logs the exception and return
+    /// Internal Server Error with an empty body.
     /// </summary>
     public class ExceptionFilter : ExceptionFilterAttribute
     {

@@ -5,7 +5,7 @@ using System.Linq;
 namespace DiffProject.WebAPI.Filters
 {
     /// <summary>
-    /// This filter will only let the request continue if the Id and Side are as expected.
+    /// Let the request continue if the Id and Side are as expected.
     /// </summary>
     public class IdAndSideValidationFilter : AbstractValidationFilter
     {

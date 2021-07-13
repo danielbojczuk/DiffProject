@@ -13,7 +13,9 @@ using Moq;
 
 namespace DiffProject.Tests.UnitTests
 {
-
+    /// <summary>
+    /// Unit tests to Update the Binary Data.
+    /// </summary>
     public class UpdatingBinaryDataTests : AbstractTestClass
     {
         private async Task<UpdateBinaryDataResponse> ExecuteCommand(Guid comparisonId, SideEnum comparisonSide, string base64EncodedString)

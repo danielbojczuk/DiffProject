@@ -13,7 +13,7 @@ using MediatR;
 namespace DiffProject.Application.CommandHandlers
 {
     /// <summary>
-    /// It Handles the Command <see cref="UpdateBinaryDataCommand"/> to calculate de differences between the Binary Data.
+    /// It Handles the Command <see cref="UpdateBinaryDataCommand"/> to calculate de differences between the Binary Data set.
     /// </summary>
     public class UpdateBinaryDataCommandHandler : AbstractCommandHandler, IRequestHandler<UpdateBinaryDataCommand, UpdateBinaryDataResponse>
     {

@@ -12,7 +12,9 @@ using Moq;
 
 namespace DiffProject.Tests.UnitTests
 {
-
+    /// <summary>
+    /// Unit tests to Result Calculation.
+    /// </summary>
     public class ResultCalculationTest : AbstractTestClass
     {
         private async Task<ComparisonResultResponse> ExecuteCommand(Guid comparisonId)
