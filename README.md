@@ -37,9 +37,9 @@ The result contains 4 fields:
 
 | Field       | Type                                  | Description                                                                                                          |
 |-------------|---------------------------------------|----------------------------------------------------------------------------------------------------------------------|
-| sidesEqual  | bool                                  | Indicates whether the data sets are equal or not                                                                          |
-| sameSize    | bool                                  | Indicates whether the sides are the same size or not                                                                |
-| differences | Collection<long position,long lenght> | If the sides aren't equal but are the same size it contains a list with the position and lenght of the differences. |
+| sidesEqual  | bool                                  | Indicates whether the data sets are equal or not                                                                     |
+| sameSize    | bool                                  | Indicates whether the sides are the same size or not                                                                 |
+| differences | Collection<long position,long lenght> | If the sides aren't equal but are the same size it contains a list with the position and lenght of the differences.  |
 | id          | UUID                                  | Comparison Result ID                                                                                                 |
 
 **Example:**
