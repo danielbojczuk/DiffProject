@@ -28,7 +28,7 @@ The result contains 4 fields:
 
 Example:
 
-**Setting the left side:**
+**1 - Setting the left side**
 >**Request**:
 >
 >curl -X POST "https://localhost:44367/v1/diff/a0a84aaa-f1e2-47c7-bb97-a3de2b6aa2d5/left" -H  "accept: */*" -H  "Content-Type: application/json" -d "\"RGFuaWVsIEFudG9uaW8gRiBCb2pjenVr\""
@@ -39,7 +39,7 @@ Example:
 >
 >*Body*: {"comparisonSide":"left","base64BinaryData":"RGFuaWVsIEFudG9uaW8gRiBCb2pjenVr","comparisonId":"a0a84aaa-f1e2-47c7-bb97-a3de2b6aa2d5","id":"52f48417-f8d5-4075-b92c-8ae39baaffde"}
 
-**Setting the right side:**
+**2 - Setting the right side**
 >**Request**:
 >
 >curl -X POST "https://localhost:44367/v1/diff/a0a84aaa-f1e2-47c7-bb97-a3de2b6aa2d5/right" -H  "accept: */*" -H  "Content-Type: application/json" -d "\"RGFuaWVsIEFudG9uaW8gRyBCb2pjenVr\""
@@ -50,7 +50,7 @@ Example:
 >
 >*Body*: {"comparisonSide":"right","base64BinaryData":"RGFuaWVsIEFudG9uaW8gRyBCb2pjenVr","comparisonId":"a0a84aaa-f1e2-47c7-bb97-a3de2b6aa2d5","id":"dbd2ae37-2ebc-4a5f-af71-1442edd30dfb"}
 
-**Retrieving the result:**
+**3 - Retrieving the result**
 >**Request**:
 >
 >curl -X GET "https://localhost:44367/v1/diff/a0a84aaa-f1e2-47c7-bb97-a3de2b6aa2d5" -H  "accept: */*"
