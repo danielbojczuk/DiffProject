@@ -59,7 +59,7 @@ namespace DiffProject.Application.CommandHandlers
                 Id = updatedBinaryData.Id,
                 ComparisonId = updatedBinaryData.ComparisonId,
                 Base64BinaryData = updatedBinaryData.Base64BinaryData,
-                ComparisonSide = ConvertEntityEnumToCommandEnum(updatedBinaryData.ComparisonSide),
+                ComparisonSide = ConvertEntityEnumToCommandEnum(updatedBinaryData.ComparisonSide).ToString(),
             };
         }
 

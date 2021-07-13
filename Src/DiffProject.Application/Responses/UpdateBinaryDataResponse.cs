@@ -11,7 +11,7 @@ namespace DiffProject.Application.Responses
         /// <summary>
         /// Gets or sets the side of the bynary data side in the comparison.
         /// </summary>
-        public SideEnum ComparisonSide { get; set; }
+        public string ComparisonSide { get; set; }
 
         /// <summary>
         /// Gets or sets the compared Bynary Data. It should be a valid Base64 encoded string.
