@@ -37,7 +37,7 @@ namespace DiffProject.Application.CommandHandlers
 
         /// <summary>
         /// Handle the command <see cref="SetBinaryDataCommand"/>.
-        /// It will set a new Binary Data to be compared.
+        /// It will set a new Binary Data to be compared and ask to start a new comparison.
         /// </summary>
         /// <param name="command">An instance of <see cref="SetBinaryDataCommand"/>.</param>
         /// <param name="cancellationToken">An instance of <see cref="CancellationToken"/>.</param>

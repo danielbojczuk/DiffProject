@@ -47,7 +47,7 @@ The result contains 4 fields:
 1 - Setting the left side:
 >**Request**:
 >```bash
->curl -X POST "https://localhost:44367/v1/diff/a0a84aaa-f1e2-47c7-bb97-a3de2b6aa2d5/left" -H  "accept: */*" -H  "Content-Type: application/json" -d "\"RGFuaWVsIEFudG9uaW8gRiBCb2pjenVr\""
+>curl -X POST "https://localhost/v1/diff/a0a84aaa-f1e2-47c7-bb97-a3de2b6aa2d5/left" -H  "accept: */*" -H  "Content-Type: application/json" -d "\"RGFuaWVsIEFudG9uaW8gRiBCb2pjenVr\""
 >```
 >
 >**Response**:
@@ -60,7 +60,7 @@ The result contains 4 fields:
 2 - Setting the right side:
 >**Request**:
 >```bash
->curl -X POST "https://localhost:44367/v1/diff/a0a84aaa-f1e2-47c7-bb97-a3de2b6aa2d5/right" -H  "accept: */*" -H  "Content-Type: application/json" -d "\"RGFuaWVsIEFudG9uaW8gRyBCb2pjenVr\""
+>curl -X POST "https://localhost/v1/diff/a0a84aaa-f1e2-47c7-bb97-a3de2b6aa2d5/right" -H  "accept: */*" -H  "Content-Type: application/json" -d "\"RGFuaWVsIEFudG9uaW8gRyBCb2pjenVr\""
 >```
 >
 >**Response**:
@@ -73,7 +73,7 @@ The result contains 4 fields:
 3 - Retrieving the result:
 >**Request**:
 >```bash
->curl -X GET "https://localhost:44367/v1/diff/a0a84aaa-f1e2-47c7-bb97-a3de2b6aa2d5" -H  "accept: */*"
+>curl -X GET "https://localhost/v1/diff/a0a84aaa-f1e2-47c7-bb97-a3de2b6aa2d5" -H  "accept: */*"
 >```
 >
 >**Response**:
