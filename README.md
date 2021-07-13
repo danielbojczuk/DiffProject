@@ -1,8 +1,8 @@
 # DiffProject
-DiffProject is a REST API to check differences between two sets of Binary Data.
+DiffProject is a REST API to check the differences between two sets of Binary Data.
 
 ### Usage
-With an UUID as a unique key, three endpoints should be called. The first two endpoints sets the *right* and *left* data to be compared and can be called at any order. As soon as both data are set or updated, DiffProject will compare them and save the result that could be retrieved in the third endpoint.
+With a UUID as a unique key, three endpoints should be called. The first two endpoints set the *right* and *left* data to be compared and can be called at any order. As soon as both data sets are defined or updated, DiffProject will compare them and save the result that could be retrieved in the third endpoint.
 
 **The data to be compared should be provided as a Base64 Encoded String.**
 
@@ -12,13 +12,13 @@ With an UUID as a unique key, three endpoints should be called. The first two en
 
 | Method | Returns     | Description                     |
 |--------|-------------|---------------------------------|
-| POST   | 201 Created | Set a new data to be compared.  |
+| POST   | 201 Created | Set new data to be compared.    |
 | PUT    | 200 Ok      | Update the data to be compared. |
 | GET    | 200 Ok      | Retrieve the data.              |
 
 All the resquests will return a Binary Data Object in the body:
 
-| Field            | Type   | Descroption                                |
+| Field            | Type   | Description                                |
 |------------------|--------|--------------------------------------------|
 | comparisonSide   | string | Provided comparison side "right" or "left" |
 | base64BinaryData | string | Provided Base64 encoded Binary Data        |
@@ -35,11 +35,11 @@ All the resquests will return a Binary Data Object in the body:
 
 The result contains 4 fields:
 
-| Field       | Type                                  | Descroption                                                                                                          |
+| Field       | Type                                  | Description                                                                                                          |
 |-------------|---------------------------------------|----------------------------------------------------------------------------------------------------------------------|
-| sidesEqual  | bool                                  | Indicates whether the data are equal or not                                                                          |
-| sameSize    | bool                                  | Indicates whether the sides have the same size or not                                                                |
-| differences | Collection<long position,long lenght> | If the sides aren't equal but have the same size it contains a list with the position and lenght of the differences. |
+| sidesEqual  | bool                                  | Indicates whether the data sets are equal or not                                                                          |
+| sameSize    | bool                                  | Indicates whether the sides are the same size or not                                                                |
+| differences | Collection<long position,long lenght> | If the sides aren't equal but are the same size it contains a list with the position and lenght of the differences. |
 | id          | UUID                                  | Comparison Result ID                                                                                                 |
 
 **Example:**
