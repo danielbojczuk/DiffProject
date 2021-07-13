@@ -14,7 +14,9 @@ using Moq;
 
 namespace DiffProject.Tests.UnitTests
 {
-
+    /// <summary>
+    /// Unit tests to Set the Binary Data.
+    /// </summary>
     public class SettingBinaryDataTests : AbstractTestClass
     {
         private async Task<SetBinaryDataResponse> ExecuteCommand(Guid comparisonId, SideEnum comparisonSide, string base64EncodedString)

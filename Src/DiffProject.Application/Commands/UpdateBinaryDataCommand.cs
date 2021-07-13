@@ -6,7 +6,7 @@ using MediatR;
 namespace DiffProject.Application.Commands
 {
     /// <summary>
-    /// Command to set update a Bynary Data.
+    /// Command to set update a Binary Data.
     /// </summary>
     public class UpdateBinaryDataCommand : IRequest<UpdateBinaryDataResponse>
     {

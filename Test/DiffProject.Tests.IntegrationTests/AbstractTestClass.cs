@@ -10,7 +10,7 @@ namespace DiffProject.Tests.IntegrationTests
 {
     /// <summary>
     /// Abstract class to provide the Web Client and Web Server to the integration testes as well the
-    /// Binary Data to use in the tests.
+    /// Binary Data Sets to be used in the tests.
     /// </summary>
     public abstract class AbstractTestClass
     {

@@ -5,7 +5,7 @@ using MediatR;
 namespace DiffProject.Application.Commands
 {
     /// <summary>
-    /// Command to calculate the differences between the Binary Data.
+    /// Command to calculate the differences between the Binary Data sets.
     /// </summary>
     public class CompareBinaryDataCommand : IRequest<ComparisonResultResponse>
     {
