@@ -2,7 +2,7 @@
 DiffProject is a REST API to check differences between two sets of Binary Data.
 
 ### Usage
-With a UUID as a unique key, three endpoints should be called. The first two endpoints sets the *right* and *left* data to be compared. They can be called at any order. As soon both data is set or updated, DiffProject will compare the data and save the result that could be retrieved in the third Endpoint.
+With an UUID as a unique key, three endpoints should be called. The first two endpoints sets the *right* and *left* data to be compared and can be called at any order. As soon as both data are set or updated, DiffProject will compare them and save the result that could be retrieved in the third endpoint.
 
 **The data to be compared should be provided as a Base64 Encoded String.**
 
