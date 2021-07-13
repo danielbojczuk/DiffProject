@@ -2,7 +2,7 @@
 Is a REST API chech where are de differences between two sets of Binary Data.
 
 ### Usage
-Using a GUID as a unique key you will neet to call at least three endpoints. The first two endpoints will set the *right* and *left* data to be compared. They could be set at any order. As soon the last data is set or updated, DiffProject will compare the data and save the result that could be retrieved in the third Endpoint.
+Using a GUID as a unique key at least three endpoints should need to be called. The first two endpoints set the *right* and *left* data to be compared. They could be called at any order. As soon the last data is set or updated, DiffProject will compare the data and save the result that could be retrieved in the third Endpoint.
 The result contains 4 fields:
 * sidesEqual: Indicates whether the sides are equal or not. 
 * samseSize: Indicates whether the sides have the same size or not.
@@ -13,17 +13,17 @@ The result contains 4 fields:
 
 ### Endpoints:
 
- * /v1/diff/**Comparison ID**/left
+ * /v1/diff/{**Comparison ID**}/left
    * POST: Set a new data to be compared. I 
    * PUT: Update the data to be compared.
    * GET: Retrieve the data.
 
-* /v1/diff/**Comparison ID**/right
+* /v1/diff/{**Comparison ID**}/right
    * POST: Set a new data to be compared.
    * PUT: Update the data to be compared.
    * GET: Retrieve the data.  
 
-* /v1/diff/**Comparison ID**
+* /v1/diff/{**Comparison ID**}
   * GET: Retrieve the Comparison Result. 
 
 Example:
