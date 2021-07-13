@@ -14,17 +14,17 @@ The result contains 4 fields:
 ### Endpoints:
 
  * /v1/diff/{**Comparison ID**}/left
-   * POST: Set a new data to be compared. I 
-   * PUT: Update the data to be compared.
-   * GET: Retrieve the data.
+   * POST: Set a new data to be compared. Response: 201 Created. 
+   * PUT: Update the data to be compared. Response: 200 Ok.
+   * GET: Retrieve the data. Response: 200 Ok.
 
 * /v1/diff/{**Comparison ID**}/right
-   * POST: Set a new data to be compared.
-   * PUT: Update the data to be compared.
-   * GET: Retrieve the data.  
+   * POST: Set a new data to be compared. Response: 201 Created. 
+   * PUT: Update the data to be compared. Response: 200 Ok.
+   * GET: Retrieve the data. Response: 200 Ok.
 
 * /v1/diff/{**Comparison ID**}
-  * GET: Retrieve the Comparison Result. 
+  * GET: Retrieve the Comparison Result. Response: 200 Ok.
 
 Example:
 
