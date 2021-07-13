@@ -3,10 +3,15 @@ Is a REST API chech where are de differences between two sets of Binary Data.
 
 ### Usage
 Using a GUID as a unique Key you will have to call at least three endpoints. The fist two endpoins mus be to set the *right* and *left* data to compare. They can be set at any order. As soon the last data is set or updated, the Diff Project will compare the data and save te result to be retrieved in the third Endpoint.
+The result contains 4 fields:
+* sidesEqual: Indicates whether the sides are equal or not. 
+* samseSize: Indicates whether the sides have the same size or not.
+* differences: If the sides aren't equal but have the seme size it contains a list wi the position and size of the difference.
+* comparisonId: The provided Comparison ID.
 
-**The data should be provided as a Base64 Encoded String.**
+**The data to be compared should be provided as a Base64 Encoded String.**
 
-###### Endpoints:
+### Endpoints:
 
  * /v1/diff/**Comparison ID**/left
    * POST: Set a new data to be compared. I 
